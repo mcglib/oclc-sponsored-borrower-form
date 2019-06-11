@@ -1,10 +1,16 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Sponsored Form for McGill Library",
     "keywords": [
         "framework",
         "laravel"
+    ],
+    "repositories": [
+     {
+      "type": "git",
+      "url": "https://github.com/OCLC-Developer-Network/oclc-auth-php.git"
+     }
     ],
     "license": "MIT",
     "require": {
