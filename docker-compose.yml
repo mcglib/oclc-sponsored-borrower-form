@@ -1,0 +1,67 @@
+version: '3.3'
+
+volumes:
+  data:
+
+networks:
+    appnetwork:
+      driver: bridge
+
+services:
+  mariadb:
+    image: 'bitnami/mariadb:latest'
+    container_name: mariadb
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=my_user
+      - MARIADB_DATABASE=my_database
+      - MARIADB_PASSWORD=my_password
+    ports:
+      - 3306:3306
+    networks:
+      appnetwork:
+        aliases:
+            - mariadb.docker.local
+  adminer:
+    container_name: dbadmin
+    image: adminer
+    restart: always
+    ports:
+      - 8091:8080
+    depends_on:
+      - mariadb
+    networks:
+      appnetwork:
+        aliases:
+            - dbadmin.docker.local
+    environment:
+      - DB_HOST=mariadb
+      - DB_USERNAME=my_user
+      - DB_DATABASE=my_database
+      - DB_PASSWORD=my_password
+
+  borrower:
+    tty: true
+    image: 'laravel:latest'
+    stdin_open: true
+    build: 
+      context: ./docker/services/laravel
+    labels:
+      kompose.service.type: nodeport
+    environment:
+      - DB_HOST=mariadb
+      - DB_USERNAME=my_user
+      - DB_DATABASE=my_database
+      - DB_PASSWORD=my_password
+    depends_on:
+      - mariadb
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./:/var/www/html/borrower
+      - ./apache.conf:/etc/apache2/sites-available/000-default.conf
+    networks:
+      appnetwork:
+        aliases:
+            - sponsored.docker.local
