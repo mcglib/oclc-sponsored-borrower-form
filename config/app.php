@@ -226,7 +226,5 @@ return [
 	    'View' => Illuminate\Support\Facades\View::class,
 	    'FormBuilder' => Kris\LaravelFormBuilder\Facades\FormBuilder::class,
 	    'Yaml' => Symfony\Component\Yaml\Yaml::class
-
     ],
-
 ];
