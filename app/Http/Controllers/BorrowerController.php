@@ -32,20 +32,18 @@ class BorrowerController extends BaseController {
     {
 
 	$borrower_categories = $this->get_borrower_categories();
-        $home_institutions = $this->get_home_institutions();
 	$borrower = $request->session()->get('borrower');
 
 	// clear session data
 	$request->session()->forget('borrower');
 
-	
+
 	$form = $this->form(BorrowerForm::class, [
 		            'method' => 'POST',
 		            'route' => 'borrower.create_step_2'
         ]);
 	return view('borrower.create-step1')
 		->with(compact('borrower_categories', $borrower_categories))
-		->with(compact('home_institutions', $home_institutions))
 		->with(compact('borrower', $borrower))
 	;
 
@@ -60,7 +58,7 @@ class BorrowerController extends BaseController {
     public function postCreateStep1(Borrower $request)
     {
 	    $validatedData = $request->validated();
-	    
+
 	    $borrower = new \App\Oclc\Borrower($validatedData);
             $request->session()->put('borrower', $borrower);
         return redirect('/create-step2');
@@ -74,10 +72,8 @@ class BorrowerController extends BaseController {
     public function createStep2(Request $request)
     {
         $borrower = $request->session()->get('borrower');
-        $home_institutions = $this->get_home_institutions();
         return view('borrower.create-step2')
           ->with(compact('borrower', $borrower))
-          ->with(compact('home_institutions', $home_institutions))
         ;
     }
     public function created(Request $request)
@@ -109,7 +105,7 @@ class BorrowerController extends BaseController {
 
        $borrower = $request->session()->get('borrower');
        $error_email = $_ENV['MAIL_ERROR_EMAIL_ADDRESS'] ?? 'dev.library@mcgill.ca';
-       
+
        // Verify the email before sending or creating a record.
        if (!$this->verify_real_email($error_email, $borrower)) {
 
@@ -130,7 +126,7 @@ class BorrowerController extends BaseController {
        }else {
          // Error occured.
          $borrower->error_msg();
-	 
+
 	 // Send the email with the data
 	 Mail::to($error_email)->send(new OclcError($borrower));
 
@@ -139,7 +135,7 @@ class BorrowerController extends BaseController {
            ->with('oclcerror',
              'An Error has occured creating an OCLC record for you.');
        }
-       
+
        // clear session data
        $request->session()->flush();
     }
@@ -151,40 +147,36 @@ class BorrowerController extends BaseController {
     }
 
     public function get_home_institutions() {
-      $borrowers = Yaml::parse(
-		    file_get_contents(base_path().'/home_institutions.yml'));
-      $keys = $borrowers['institutions'];
-      return $keys;
+      return NULL;
     }
     public function verify_real_email($error_email, $borrower) {
 
         $valid = true;
-    	// Initialize library class
-	$mail = new VerifyEmailService();
+            // Initialize library class
+        $mail = new VerifyEmailService();
 
-	// Set the timeout value on stream
-	$mail->setStreamTimeoutWait(20);
+        // Set the timeout value on stream
+        $mail->setStreamTimeoutWait(20);
 
-	// Set debug output mode
-	$mail->Debug= TRUE; 
-	$mail->Debugoutput= 'html'; 
+        // Set debug output mode
+        $mail->Debug= TRUE;
+        $mail->Debugoutput= 'html';
 
-	// Set email address for SMTP request
-	$mail->setEmailFrom($error_email);
+        // Set email address for SMTP request
+        $mail->setEmailFrom($error_email);
 
-	// Email to check
-	// check the result of the mail before creating the account
-        try{
-       		$result = Mail::to($borrower->email)->send(new AccountCreated($borrower));
-	}catch(\Swift_TransportException $e){
-		$response = $e->getMessage() ;
-		$valid = false;
-	}
+        // Email to check
+        // check the result of the mail before creating the account
+            try{
+                $result = Mail::to($borrower->email)->send(new AccountCreated($borrower));
+        }catch(\Swift_TransportException $e){
+            $response = $e->getMessage() ;
+            $valid = false;
+        }
 
 
-	// Check if email is valid and exist
-	return $valid;
-    
+        // Check if email is valid and exist
+        return $valid;
+
     }
-
 }

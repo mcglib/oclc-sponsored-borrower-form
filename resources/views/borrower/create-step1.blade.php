@@ -22,29 +22,29 @@
 				    <label for="fname" class="control-label required">First name <span class="required">*</span></label>
 				    {!! Form::input('text', 'fname', $borrower->fname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
         		    </div>
-    
+
 			    <div class="form-group">
-    
+
 			       <label for="lname" class="control-label required">Last name <span class="required">*</span></label>
 			      {!! Form::input('text', 'lname', $borrower->lname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
         		    </div>
-    
+
 			    <div class="form-group">
-    
+
 				    <label for="email" class="control-label required">Email address <span class="required">*</span></label>
 			      	    {!! Form::input('email', 'email', $borrower->email ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
         		    </div>
-    
-    
+
+
 			    <div class="form-group">
-    
+
 				    <label for="borrower_cat" class="control-label required">Requested borrowing category<span class="required">*</span></label>
 				    {!! Form::select('borrower_cat', array_merge(['' => 'Please select a category'], $borrower_categories), $borrower->borrower_cat ?? null, ['class' => 'form-control']) !!}
         		    </div>
-    
+
 			    <div id="spouseDivCheck" class="no-display">
 				<div class="form-group">
-    
+
 				    <label for="spouse_name" class="control-label">If applying for faculty spouse borrowing card, please enter the name of your spouse</label>
 			      	    {!! Form::input('text', 'spouse_name', $borrower->spouse_name ?? null, ['class'=> 'form-control']) !!}
         		        </div>
@@ -54,7 +54,7 @@
 				    <label for="home_institution" class="control-label">Please enter the name of your home institution<span class="required">*</span></label>
 				    {!! Form::select('home_institution', array_merge(['' => 'Please select an institution'], $home_institutions), $borrower->home_institution ?? null, ['class' => 'form-control']) !!}
         		        </div>
-    
+
 			    </div>
 			    <div id="addressDivCheck" class="no-display">
 				   <fieldset class="form-group" id="borrower_address">
@@ -66,7 +66,7 @@
 				   <div class="form-group">
 					<label for="address2" class="control-label">Street address 2</label>
 					 {!! Form::input('text', 'address2', $borrower->address2 ?? null, ['class'=> 'form-control']) !!}
-	    
+
 				   </div>
 
 				    <div class="form-group">

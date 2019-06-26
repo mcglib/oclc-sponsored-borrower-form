@@ -32,7 +32,6 @@ class SponsorController extends BaseController {
     {
 
 	    $borrower_categories = $this->get_borrower_categories();
-        $home_institutions = $this->get_home_institutions();
 	    $borrower = $request->session()->get('borrower');
 
         // clear session data
