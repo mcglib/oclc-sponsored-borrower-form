@@ -100,4 +100,5 @@
 		</div>
 	    </div>
 	    <!-- /form user info -->
+ </div>
 @endsection
