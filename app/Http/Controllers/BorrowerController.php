@@ -33,18 +33,20 @@ class BorrowerController extends BaseController {
 
 	$borrower_categories = $this->get_borrower_categories();
 	$borrower = $request->session()->get('borrower');
+	$home_institutions = $this->get_home_institutions();
 
 	// clear session data
 	$request->session()->forget('borrower');
 
 
-	$form = $this->form(BorrowerForm::class, [
-		            'method' => 'POST',
-		            'route' => 'borrower.create_step_2'
-        ]);
+//	$form = $this->form(BorrowerForm::class, [
+//		            'method' => 'POST',
+//		            'route' => 'borrower.create_step_2'
+//        ]);
 	return view('borrower.create-step1')
 		->with(compact('borrower_categories', $borrower_categories))
 		->with(compact('borrower', $borrower))
+        ->with(compact('home_institutions', $home_institutions))
 	;
 
     }
@@ -147,7 +149,7 @@ class BorrowerController extends BaseController {
     }
 
     public function get_home_institutions() {
-      return NULL;
+      return [];
     }
     public function verify_real_email($error_email, $borrower) {
 
