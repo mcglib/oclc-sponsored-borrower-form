@@ -1,64 +1,17 @@
-categories:
+branches:
   - key: value1
-    borrower_category: McGill community borrower
-    label: Faculty member or graduate student at a Canadian University 
-    wms_custom_data_3: Reciprocal graduates & profs
-    wms_custom_data_2:
-    home_institution: true
-    need_address: false
+    label: Education Library and Curriculum Resources Centre
   - key: value2
-    borrower_category: McGill community borrower
-    label: McGill alumnus or alumna
-    wms_custom_data_3: McGill alumni
-    wms_custom_data_2: 
-    home_institution: false
-    need_address: true
+    label: Howard Ross Library of Management
   - key: value3
-    borrower_category: McGill undergraduate
-    label: McGill Community for Lifelong Learning student
-    wms_custom_data_3: MCLL
-    home_institution: false
-    wms_custom_data_2: 
-    need_address: true
+    label: Humanities and Social Sciences Library
   - key: value4
-    borrower_category: McGill faculty and staff
-    label: 
-    wms_custom_data_3: Faculty spouse
-    home_institution: false
-    wms_custom_data_2: 
-    need_address: true
+    label: Life Sciences Library / Osler Library of History of Medicine
   - key: value5
-    borrower_category: McGill graduate student
-    label: McGill PhD extension
-    wms_custom_data_3: PhD extension
-    home_institution: false
-    wms_custom_data_2: 
-    need_address: true
+    label: Macdonald Campus Library
   - key: value6
-    borrower_category: McGill community borrower
-    label: Member of the public ($100 for 6 months)
-    wms_custom_data_3: Personal (paid)
-    home_institution: false
-    wms_custom_data_2: 
-    need_address: true
+    label: Marvin Duchow Music Library
   - key: value8
-    borrower_category: ROAAr reader
-    label: Osler/Rare Books/Archives reader 
-    wms_custom_data_3: Other
-    home_institution: false
-    wms_custom_data_2:
-    need_address: true
+    label: Nahum Gelber Law Library
   - key: value9
-    borrower_category: McGill community borrower
-    label: Undergraduate student at a Quebec University
-    wms_custom_data_3: Reciprocal undergrads
-    home_institution: true
-    wms_custom_data_2:
-    need_address: false
-  - key: value10
-    borrower_category: McGill faculty and staff
-    label: Visiting scholar (with letter of invitation)
-    wms_custom_data_3: Visiting scholar
-    home_institution: false
-    wms_custom_data_2:
-    need_address: true
+    label: Schulich Library of Science and Engineering
