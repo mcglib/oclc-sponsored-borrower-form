@@ -4,7 +4,7 @@
  <div class="col-md-12">
 	    <div class="card card-outline-secondary">
 		<div class="card-header">
-		    <h3 class="mb-0">McGill Library Borrowing Card Application Form</h3>
+		    <h3 class="mb-0">McGill Library Sponsored Borrower form</h3>
 		</div>
 		<div class="card-body">
 		     @if (count($errors) > 0)
@@ -18,22 +18,52 @@
 			     @endif
 		   <form action="create-step1" method="post">
 		    {{ csrf_field() }}
-			    <div class="form-group">
-				    <label for="fname" class="control-label required">First name <span class="required">*</span></label>
-				    {!! Form::input('text', 'fname', $borrower->fname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
-        		    </div>
+			<fieldset class="form-group" id="library_information">
+            </fieldset>
+			<fieldset class="form-group" id="professors_information">
+            </fieldset>
+			<fieldset class="form-group" id="borrower_information">
+                <div class="form-group">
+                    <label for="fname" class="control-label required">First name <span class="required">*</span></label>
+                    {!! Form::input('text', 'fname', $borrower->fname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                </div>
+                <div class="form-group">
+                    <label for="email" class="control-label required">Email address <span class="required">*</span></label>
+                    {!! Form::input('email', 'email', $borrower->email ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                </div>
+                <div class="form-group">
+                    <label for="address1" class="control-label">Street address 1<span class="required">*</span></label>
+                 {!! Form::input('text', 'address1', $borrower->address1 ?? null, ['class'=> 'form-control']) !!}
+                </div>
+               <div class="form-group">
+                <label for="address2" class="control-label">Street address 2</label>
+                 {!! Form::input('text', 'address2', $borrower->address2 ?? null, ['class'=> 'form-control']) !!}
 
-			    <div class="form-group">
+               </div>
 
-			       <label for="lname" class="control-label required">Last name <span class="required">*</span></label>
-			      {!! Form::input('text', 'lname', $borrower->lname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
-        		    </div>
+                <div class="form-group">
+                <label for="city" class="control-label">City<span class="required">*</span></label>
+                 {!! Form::input('text', 'city', $borrower->city ?? null, ['class'=> 'form-control']) !!}
+                </div>
+                <div class="form-group">
+                <label for="province" class="control-label">Province/State<span class="required">*</span></label>
+                 {!! Form::input('text', 'province_state', $borrower->province_state ?? null, ['class'=> 'form-control']) !!}
+                </div>
+                <div class="form-group">
+                <label for="postal_code" class="control-label">Postal code<span class="required">*</span></label>
+                 {!! Form::input('text', 'postal_code', $borrower->postal_code ?? null, ['class'=> 'form-control', 'placeholder' => 'XXX XXX']) !!}
+                </div>
+                <div class="form-group">
+                    <label for="telephone_no" class="control-label">Telephone<span class="required">*</span></label>
+                    {!! Form::input('text', 'telephone_no', $borrower->telephone_no ?? null, ['class'=> 'form-control', 'placeholder' => '(xxx) xxx - xxxx ext. xxxx']) !!}
+                </div>
+            </fieldset>
 
-			    <div class="form-group">
+            <div class="form-group">
+                <label for="lname" class="control-label required">Last name <span class="required">*</span></label>
+                {!! Form::input('text', 'lname', $borrower->lname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+            </div>
 
-				    <label for="email" class="control-label required">Email address <span class="required">*</span></label>
-			      	    {!! Form::input('email', 'email', $borrower->email ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
-        		    </div>
 
 
 			    <div class="form-group">
