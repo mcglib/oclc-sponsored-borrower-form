@@ -19,12 +19,14 @@
 		   <form action="create-step1" method="post">
 		    {{ csrf_field() }}
 			<fieldset class="form-group" id="library_information">
+				<legend>Library information</legend>
                 <div class="form-group">
                     <label for="borrower_cat" class="control-label required">Requested borrowing category<span class="required">*</span></label>
                     {!! Form::select('borrower_cat', array_merge(['' => 'Please select a category'], $borrower_categories), $borrower->borrower_cat ?? null, ['class' => 'form-control']) !!}
                 </div>
             </fieldset>
 			<fieldset class="form-group" id="professors_information">
+				<legend>Professors information</legend>
                 <div class="form-group">
                     <label for="fname" class="control-label required">First name <span class="required">*</span></label>
                     {!! Form::input('text', 'fname', $borrower->fname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
@@ -35,6 +37,7 @@
                 </div>
             </fieldset>
 			<fieldset class="form-group" id="borrower_information">
+				<legend>Borrower information</legend>
                 <div class="form-group">
                     <label for="fname" class="control-label required">First name <span class="required">*</span></label>
                     {!! Form::input('text', 'fname', $borrower->fname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
