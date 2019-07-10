@@ -21,8 +21,8 @@
 			<fieldset class="form-group" id="library_information">
 				<legend>Library information</legend>
                 <div class="form-group">
-                    <label for="borrower_cat" class="control-label required">Requested borrowing category<span class="required">*</span></label>
-                    {!! Form::select('borrower_cat', array_merge(['' => 'Please select a category'], $borrower_categories), $borrower->borrower_cat ?? null, ['class' => 'form-control']) !!}
+                    <label for="library_branch" class="control-label required">Branch Library<span class="required">*</span></label>
+                    {!! Form::select('library_branch', array_merge(['' => 'Please select a branch'], $library_branches), $borrower->library_branch ?? null, ['class' => 'form-control']) !!}
                 </div>
             </fieldset>
 			<fieldset class="form-group" id="professors_information">
