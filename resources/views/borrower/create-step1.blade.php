@@ -22,7 +22,7 @@
 				<legend>Library information</legend>
                 <div class="form-group">
                     <label for="library_branch" class="control-label required">Branch Library<span class="required">*</span></label>
-                    {!! Form::select('library_branch', array_merge(['' => 'Please select a branch'], $library_branches), $borrower->library_branch ?? null, ['class' => 'form-control']) !!}
+                    {!! //Form::select('library_branch', array_merge(['' => 'Please select a branch'], $library_branches), $borrower->library_branch ?? null, ['class' => 'form-control']) !!}
                 </div>
             </fieldset>
 			<fieldset class="form-group" id="professors_information">
