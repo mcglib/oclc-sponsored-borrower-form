@@ -21,55 +21,51 @@
 			<fieldset class="form-group" id="library_information">
 				<legend>Library information</legend>
                 <div class="form-group">
-                    <label for="library_branch" class="control-label required">Branch Library<span class="required">*</span></label>
+                    <label for="branch_library" class="control-label required">Branch Library<span class="required">*</span></label>
+                    {!! Form::input('text', 'branch_library', $borrower->branch_library ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
                 </div>
             </fieldset>
 			<fieldset class="form-group" id="professors_information">
 				<legend>Professors information</legend>
                 <div class="form-group">
-                    <label for="fname" class="control-label required">First name <span class="required">*</span></label>
-                    {!! Form::input('text', 'fname', $borrower->fname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                    <label for="prof_name" class="control-label required">Name <span class="required">*</span></label>
+                    {!! Form::input('text', 'prof_name', $borrower->prof_name ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="lname" class="control-label required">Last name <span class="required">*</span></label>
-                    {!! Form::input('text', 'lname', $borrower->lname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                    <label for="prof_dept" class="control-label required">Department <span class="required">*</span></label>
+                    {!! Form::input('text', 'prof_dept', $borrower->prof_dept ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                </div>
+                <div class="form-group">
+                    <label for="prof_telephone" class="control-label required">Telephone number<span class="required">*</span></label>
+                    {!! Form::input('text', 'dept', $borrower->prof_telephone ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
                 </div>
             </fieldset>
 			<fieldset class="form-group" id="borrower_information">
 				<legend>Borrower information</legend>
                 <div class="form-group">
-                    <label for="fname" class="control-label required">First name <span class="required">*</span></label>
-                    {!! Form::input('text', 'fname', $borrower->fname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                    <label for="borrower_name" class="control-label required">Name <span class="required">*</span></label>
+                    {!! Form::input('text', 'borrower_name', $borrower->borrower_name ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="email" class="control-label required">Email address <span class="required">*</span></label>
-                    {!! Form::input('email', 'email', $borrower->email ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                    <label for="borrower_email" class="control-label required">Borrower's Email address <span class="required">*</span></label>
+                    {!! Form::input('email', 'email', $borrower->borrower_email ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="address1" class="control-label">Street address 1<span class="required">*</span></label>
-                 {!! Form::input('text', 'address1', $borrower->address1 ?? null, ['class'=> 'form-control']) !!}
+                    <label for="borrower_address" class="control-label">Mailing address<span class="required">*</span></label>
+                 {!! Form::input('textarea', 'borrower_address', $borrower->borrower_address ?? null, ['class'=> 'form-control']) !!}
                 </div>
                <div class="form-group">
-                <label for="address2" class="control-label">Street address 2</label>
-                 {!! Form::input('text', 'address2', $borrower->address2 ?? null, ['class'=> 'form-control']) !!}
-
+                <label for="borrower_auth_from" class="control-label">Period of Authorization from</label>
+                {!! Form::date('borrower_auth_from', \Carbon\Carbon::now()->format('d/m/Y'), ['class' => 'form-control', 'required' => 'required']) !!}
+               </div>
+               <div class="form-group">
+                <label for="borrower_auth_to" class="control-label">Period of Authorization to</label>
+                {!! Form::date('borrower_auth_to', \Carbon\Carbon::now()->format('d/m/Y'), ['class' => 'form-control', 'required' => 'required']) !!}
                </div>
 
                 <div class="form-group">
                 <label for="city" class="control-label">City<span class="required">*</span></label>
                  {!! Form::input('text', 'city', $borrower->city ?? null, ['class'=> 'form-control']) !!}
-                </div>
-                <div class="form-group">
-                <label for="province" class="control-label">Province/State<span class="required">*</span></label>
-                 {!! Form::input('text', 'province_state', $borrower->province_state ?? null, ['class'=> 'form-control']) !!}
-                </div>
-                <div class="form-group">
-                <label for="postal_code" class="control-label">Postal code<span class="required">*</span></label>
-                 {!! Form::input('text', 'postal_code', $borrower->postal_code ?? null, ['class'=> 'form-control', 'placeholder' => 'XXX XXX']) !!}
-                </div>
-                <div class="form-group">
-                    <label for="telephone_no" class="control-label">Telephone<span class="required">*</span></label>
-                    {!! Form::input('text', 'telephone_no', $borrower->telephone_no ?? null, ['class'=> 'form-control', 'placeholder' => '(xxx) xxx - xxxx ext. xxxx']) !!}
                 </div>
             </fieldset>
 
@@ -92,35 +88,6 @@
 
 			    </div>
 			    <div id="addressDivCheck" class="no-display">
-				   <fieldset class="form-group" id="borrower_address">
-				    <legend>Borrower information</legend>
-				    <div class="form-group">
-					    <label for="address1" class="control-label">Street address 1<span class="required">*</span></label>
-					 {!! Form::input('text', 'address1', $borrower->address1 ?? null, ['class'=> 'form-control']) !!}
-				    </div>
-				   <div class="form-group">
-					<label for="address2" class="control-label">Street address 2</label>
-					 {!! Form::input('text', 'address2', $borrower->address2 ?? null, ['class'=> 'form-control']) !!}
-
-				   </div>
-
-				    <div class="form-group">
-					<label for="city" class="control-label">City<span class="required">*</span></label>
-					 {!! Form::input('text', 'city', $borrower->city ?? null, ['class'=> 'form-control']) !!}
-				    </div>
-				    <div class="form-group">
-					<label for="province" class="control-label">Province/State<span class="required">*</span></label>
-					 {!! Form::input('text', 'province_state', $borrower->province_state ?? null, ['class'=> 'form-control']) !!}
-				    </div>
-				    <div class="form-group">
-					<label for="postal_code" class="control-label">Postal code<span class="required">*</span></label>
-					 {!! Form::input('text', 'postal_code', $borrower->postal_code ?? null, ['class'=> 'form-control', 'placeholder' => 'XXX XXX']) !!}
-				    </div>
-				    <div class="form-group">
-					    <label for="telephone_no" class="control-label">Telephone<span class="required">*</span></label>
-					    {!! Form::input('text', 'telephone_no', $borrower->telephone_no ?? null, ['class'=> 'form-control', 'placeholder' => '(xxx) xxx - xxxx ext. xxxx']) !!}
-				    </div>
-				    </fieldset>
 			    </div>
 			    <div> <span>* Required</span></div>
 			    <div class="form-group row">
