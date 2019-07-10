@@ -19,8 +19,20 @@
 		   <form action="create-step1" method="post">
 		    {{ csrf_field() }}
 			<fieldset class="form-group" id="library_information">
+                <div class="form-group">
+                    <label for="borrower_cat" class="control-label required">Requested borrowing category<span class="required">*</span></label>
+                    {!! Form::select('borrower_cat', array_merge(['' => 'Please select a category'], $borrower_categories), $borrower->borrower_cat ?? null, ['class' => 'form-control']) !!}
+                </div>
             </fieldset>
 			<fieldset class="form-group" id="professors_information">
+                <div class="form-group">
+                    <label for="fname" class="control-label required">First name <span class="required">*</span></label>
+                    {!! Form::input('text', 'fname', $borrower->fname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                </div>
+                <div class="form-group">
+                    <label for="lname" class="control-label required">Last name <span class="required">*</span></label>
+                    {!! Form::input('text', 'lname', $borrower->lname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                </div>
             </fieldset>
 			<fieldset class="form-group" id="borrower_information">
                 <div class="form-group">
@@ -59,18 +71,9 @@
                 </div>
             </fieldset>
 
-            <div class="form-group">
-                <label for="lname" class="control-label required">Last name <span class="required">*</span></label>
-                {!! Form::input('text', 'lname', $borrower->lname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
-            </div>
 
 
 
-			    <div class="form-group">
-
-				    <label for="borrower_cat" class="control-label required">Requested borrowing category<span class="required">*</span></label>
-				    {!! Form::select('borrower_cat', array_merge(['' => 'Please select a category'], $borrower_categories), $borrower->borrower_cat ?? null, ['class' => 'form-control']) !!}
-        		    </div>
 
 			    <div id="spouseDivCheck" class="no-display">
 				<div class="form-group">
