@@ -22,7 +22,7 @@
 				<legend>Library information</legend>
                 <div class="form-group">
                     <label for="branch_library" class="control-label required">Branch Library<span class="required">*</span></label>
-                    {!! Form::input('text', 'branch_library', $borrower->branch_library ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                    {!! Form::select('branch_library', array_merge(['' => 'Please select a branch'], $branch_libraries), $borrower->branch_library ?? null, ['class' => 'form-control', 'required' => 'required']) !!}
                 </div>
             </fieldset>
 			<fieldset class="form-group" id="professors_information">
@@ -37,7 +37,7 @@
                 </div>
                 <div class="form-group">
                     <label for="prof_telephone" class="control-label required">Telephone number<span class="required">*</span></label>
-                    {!! Form::input('text', 'dept', $borrower->prof_telephone ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                    {!! Form::input('text', 'prof_telephone', $borrower->prof_telephone ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
                 </div>
             </fieldset>
 			<fieldset class="form-group" id="borrower_information">
@@ -48,10 +48,10 @@
                 </div>
                 <div class="form-group">
                     <label for="borrower_email" class="control-label required">Borrower's Email Address <span class="required">*</span></label>
-                    {!! Form::input('email', 'email', $borrower->borrower_email ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                    {!! Form::input('email', 'borrower_email', $borrower->borrower_email ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="borrower_address" class="control-label">Mailing Address<span class="required">*</span></label>
+                    <label for="borrower_address" class="control-label">Mailing Address</label>
                     {!! Form::textarea('borrower_address',$borrower->borrower_address ?? null, array('class'=>'form-control','rows' => 8, 'cols' => 50)) !!}
                 </div>
                <div class="form-group">
@@ -63,43 +63,33 @@
                 {!! Form::date('borrower_auth_to', $borrower->borrower_auth_to ?? \Carbon\Carbon::today()->addYears(1)->format('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
                </div>
                <div class="form-group">
-               <label for="borrower_status" class="control-label">Borrower's status<span class="required">*</span></label>
-                {{ Form::radio('borrower_status',  true, 'The authorized borrower is a McGill student.') }}
-                {{ Form::radio('borrower_status', false, 'The authorized borrower is not a McGill student.' , false) }}
+               <label for="borrower_status" class="control-label">Borrower's status<span class="required">*</span></label><br />
+               {{ Form::radio('borrower_status', $borrower->borrower_status ?? null, true ) }} The authorized borrower is a McGill student.
+               {{ Form::radio('borrower_status', $borrower->borrower_status ?? null, false) }} The authorized borrower is not a McGill student.
                </div>
-
+                <hr />
+                <p>Please fill in the phone number and address if the borrower is Not a McGill student.</p>
+               <div class="form-group">
+                    <label for="borrower_telephone" class="control-label ">Telephone Number </label>
+                    {!! Form::input('text', 'borrower_telephone', $borrower->borrower_telephone ?? null, ['class'=> 'form-control']) !!}
+               </div>
             </fieldset>
+            <hr />
+           <div class="form-group">
+               <label for="borrower_terms" class="control-label">Terms<span class="required">*</span></label><br />
+               {!! Form::checkbox('borrower_terms', $borrower->borrower_terms ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+               I accept full responsibility for fines, replacement costs and any other charges incurred by the aforementioned for library privileges authorized under my name.
+           </div>
 
-
-
-
-
-            <div id="spouseDivCheck" class="no-display">
-            <div class="form-group">
-
-                <label for="spouse_name" class="control-label">If applying for faculty spouse borrowing card, please enter the name of your spouse</label>
-                    {!! Form::input('text', 'spouse_name', $borrower->spouse_name ?? null, ['class'=> 'form-control']) !!}
-                    </div>
-            </div>
-            <div id="homeInstDivCheck" class="no-display">
-            <div class="form-group">
-                <label for="home_institution" class="control-label">Please enter the name of your home institution<span class="required">*</span></label>
-                {!! Form::select('home_institution', array_merge(['' => 'Please select an institution'], $home_institutions), $borrower->home_institution ?? null, ['class' => 'form-control']) !!}
-                    </div>
-
-            </div>
-            <div id="addressDivCheck" class="no-display">
-            </div>
-            <div> <span>* Required</span></div>
             <div class="form-group row">
-            <label class="col-lg-4 col-form-label form-control-label"></label>
-            <div class="col-lg-8">
-                <input class="btn btn-primary" type="submit" value="Next">
-                <button class="btn btn-secondary" type="button">Cancel</button>
-            </div>
+                <label class="col-lg-4 col-form-label form-control-label"></label>
+                <div class="col-lg-8">
+                    <input class="btn btn-primary" type="submit" value="Next">
+                    <button class="btn btn-secondary" type="button">Cancel</button>
+                </div>
             </div>
            @include('layouts.partials.footer')
-                </form>
+           </form>
     </div>
     </div>
     <!-- /form user info -->

@@ -3,11 +3,12 @@
 @section('content')
     <h3>Review Submission</h3>
     <form action="store" method="post" id="store-form" >
-	{{ csrf_field() }}
+    {{ csrf_field() }}
+        <h4> Library information </h4>
         <table class="table">
             <tr>
-                <td>First name:</td>
-                <td><strong>{{$borrower->fname}}</strong></td>
+                <td>Branch library:</td>
+                <td><strong>{{$borrower->branch_library}}</strong></td>
             </tr>
             <tr>
                 <td>Last name:</td>
@@ -19,9 +20,48 @@
             </tr>
             <tr>
                 <td>Requested Borrowing Category:</td>
-		<td><strong>{{$borrower->getBorrowerCategoryLabel($borrower->borrower_cat)}}</strong>
-		</td>
-	    </tr>
+                <td><strong>{{$borrower->getBorrowerCategoryLabel($borrower->borrower_cat)}}</strong></td>
+                </tr>
+        </table>
+        <h4> Proffesor's information </h4>
+        <table class="table">
+            <tr>
+                <td>Branch library:</td>
+                <td><strong>{{$borrower->branch_library}}</strong></td>
+            </tr>
+            <tr>
+                <td>Last name:</td>
+                <td><strong>{{$borrower->lname}}</strong></td>
+            </tr>
+            <tr>
+                <td>Email address:</td>
+                <td><strong>{{$borrower->email}}</strong></td>
+            </tr>
+            <tr>
+                <td>Requested Borrowing Category:</td>
+                <td><strong>{{$borrower->getBorrowerCategoryLabel($borrower->borrower_cat)}}</strong></td>
+                </tr>
+        </table>
+        <h4> Borrower's information </h4>
+        <table class="table">
+            <tr>
+                <td>Branch library:</td>
+                <td><strong>{{$borrower->branch_library}}</strong></td>
+            </tr>
+            <tr>
+                <td>Last name:</td>
+                <td><strong>{{$borrower->lname}}</strong></td>
+            </tr>
+            <tr>
+                <td>Email address:</td>
+                <td><strong>{{$borrower->email}}</strong></td>
+            </tr>
+            <tr>
+                <td>Requested Borrowing Category:</td>
+                <td><strong>{{$borrower->getBorrowerCategoryLabel($borrower->borrower_cat)}}</strong></td>
+                </tr>
+        </table>
+
 	    @if (isset($borrower->spouse_name))
 		    <tr>
 			<td>Spouse's name:</td>
