@@ -31,23 +31,16 @@ class BorrowerController extends BaseController {
     public function createStep1(Request $request)
     {
 
-	$borrower_categories = $this->get_borrower_categories();
-	$borrower = $request->session()->get('borrower');
-	$home_institutions = $this->get_home_institutions();
+        $borrower = $request->session()->get('borrower');
+        $branch_libraries = $this->get_branch_libraries();
 
-	// clear session data
-	$request->session()->forget('borrower');
+        // clear session data
+        $request->session()->forget('borrower');
 
-
-//	$form = $this->form(BorrowerForm::class, [
-//		            'method' => 'POST',
-//		            'route' => 'borrower.create_step_2'
-//        ]);
-	return view('borrower.create-step1')
-		->with(compact('borrower_categories', $borrower_categories))
-		->with(compact('borrower', $borrower))
-        ->with(compact('home_institutions', $home_institutions))
-	;
+        return view('borrower.create-step1')
+            ->with(compact('borrower', $borrower))
+            ->with(compact('branch_libraries', $branch_libraries))
+        ;
 
     }
 
@@ -61,8 +54,8 @@ class BorrowerController extends BaseController {
     {
 	    $validatedData = $request->validated();
 
-	    $borrower = new \App\Oclc\Borrower($validatedData);
-            $request->session()->put('borrower', $borrower);
+        $borrower = $this->build_borrower($validatedData);
+        $request->session()->put('borrower', $borrower);
         return redirect('/create-step2');
     }
 
@@ -74,30 +67,29 @@ class BorrowerController extends BaseController {
     public function createStep2(Request $request)
     {
         $borrower = $request->session()->get('borrower');
+
         return view('borrower.create-step2')
-          ->with(compact('borrower', $borrower))
-        ;
+          ->with(compact('borrower', $borrower));
     }
     public function created(Request $request)
     {
-	$borrower = $request->session()->get('borrower');
+        $borrower = $request->session()->get('borrower');
 
-	if (is_null($borrower)) {
-		// clear session data
-        	$request->session()->flush();
-        	return redirect('/create-step1');
-	}
-	// clear session data
-        $request->session()->flush();
-        return view('borrower.success')
-          ->with(compact('borrower', $borrower));
+        if (is_null($borrower)) {
+            // clear session data
+                $request->session()->flush();
+                return redirect('/create-step1');
+        }
+        // clear session data
+            $request->session()->flush();
+            return view('borrower.success')
+              ->with(compact('borrower', $borrower));
     }
     public function errorPage(Request $request)
     {
         $borrower = $request->session()->get('borrower');
         return view('borrower.error')
-          ->with(compact('borrower', $borrower))
-	  ;
+          ->with(compact('borrower', $borrower));
     }
 
 
@@ -111,8 +103,8 @@ class BorrowerController extends BaseController {
        // Verify the email before sending or creating a record.
        if (!$this->verify_real_email($error_email, $borrower)) {
 
-            $error_msg = "The email address $borrower->email does not exist. Please check your spelling.";
-	    Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
+            $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
+	        Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
 
 	    $request->session()->flash('message', $error_msg);
        	    return redirect('error')
@@ -129,8 +121,8 @@ class BorrowerController extends BaseController {
          // Error occured.
          $borrower->error_msg();
 
-	 // Send the email with the data
-	 Mail::to($error_email)->send(new OclcError($borrower));
+         // Send the email with the data
+         Mail::to($error_email)->send(new OclcError($borrower));
 
          // Redirect to the form.
          return redirect('error')
@@ -141,16 +133,36 @@ class BorrowerController extends BaseController {
        // clear session data
        $request->session()->flush();
     }
-    public function get_borrower_categories() {
-      $borrowers = Yaml::parse(
-		    file_get_contents(base_path().'/borrowing_categories.yml'));
-      $keys = array_column($borrowers['categories'], 'label', 'key');
+
+    private function build_borrower($request) {
+        $borrower = new \stdClass();
+        $borrower->data = $request;
+        $borrower->branch_library = $request['branch_library'];
+
+        $borrower->prof_name = $request['prof_name'];
+        $borrower->prof_telephone = $request['prof_telephone'];
+        $borrower->prof_dept = $request['prof_dept'];
+
+        $borrower->borrower_name = $request['borrower_name'];
+        $borrower->borrower_email = $request['borrower_email'];
+        $borrower->borrower_address = $request['borrower_address'] ?? null;
+        $borrower->borrower_auth_to = $request['borrower_auth_to'];
+        $borrower->borrower_auth_from = $request['borrower_auth_from'] ?? null;
+        $borrower->borrower_status = $request['borrower_status'];
+        $borrower->borrower_telephone = $request['borrower_telephone'] ?? null;
+        $borrower->borrower_terms = $request['borrower_terms'];
+
+
+        return $borrower;
+    }
+
+    public function get_branch_libraries() {
+      $branch_libraries = Yaml::parse(
+        file_get_contents(base_path().'/branch_libraries.yml'));
+      $keys = array_column($branch_libraries['branches'], 'label', 'key');
       return $keys;
     }
 
-    public function get_home_institutions() {
-      return [];
-    }
     public function verify_real_email($error_email, $borrower) {
 
         $valid = true;

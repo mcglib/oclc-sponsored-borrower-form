@@ -24,6 +24,7 @@
         "oclc/auth": "*",
         "simplesamlphp/simplesamlphp": "^1.16",
         "symfony/yaml": "^4.2",
+        "twbs/bootstrap": "4.3.1",
         "uabookstores/laravel-shibboleth": "^3.0"
     },
     "require-dev": {
