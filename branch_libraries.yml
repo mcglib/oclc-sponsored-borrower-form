@@ -1,0 +1,25 @@
+branches:
+  - key: value1
+    label: Education Library and Curriculum Resources Centre
+    email: educcirc.library@mcgill.ca
+  - key: value2
+    label: Howard Ross Library of Management
+    email: hrmgcirc.library@mcgill.ca
+  - key: value3
+    label: Humanities and Social Sciences Library
+    email: hsslloans.library@mcgill.ca
+  - key: value4
+    label: Life Sciences Library / Osler Library of History of Medicine
+    email: lslcirc.library@mcgill.ca
+  - key: value5
+    label: Macdonald Campus Library
+    email: macdcirc.library@mcgill.ca
+  - key: value6
+    label: Marvin Duchow Music Library
+    email: musiccirc.library@mcgill.ca
+  - key: value8
+    label: Nahum Gelber Law Library
+    email: lawcirc.library@mcgill.ca
+  - key: value9
+    label: Schulich Library of Science and Engineering
+    email: schulichloans.library@mcgill.ca

@@ -25,17 +25,18 @@ class Borrower extends FormRequest
     public function rules()
     {
         return [
-	    'fname' => 'required|max:50',
-	    'lname' => 'required|max:50',
-	    'email' => 'required|email|max:254',
-	    'borrower_cat' => 'required',
-	    'address2' => 'nullable',
-	    'telephone_no' => 'required_if:borrower_cat,value2,value3,value4,value5,value6,value8,value10|max:17',
-	    'spouse_name' => 'required_if:borrower_cat,value4|max:50',
-	    'address1' => 'required_if:borrower_cat,value2,value3,value4,value5,value6,value8,value10|max:120',
-	    'city' => 'required_if:borrower_cat,value2,value3,value4,value5,value6,value8,value10|max:50',
-	    'province_state' => 'required_if:borrower_cat,value2,value3,value4,value5,value6,value8,value10|max:50',
-	    'postal_code' => 'required_if:borrower_cat,value2,value3,value4,value5,value6,value8,value10|max:20',
+	    'branch_library' => 'required',
+	    'prof_name' => 'required|max:50',
+	    'prof_dept' => 'required|max:50',
+	    'prof_telephone' => 'required|max:254',
+	    'borrower_name' => 'required',
+	    'borrower_email' => 'required',
+	    'borrower_address' => 'nullable',
+	    'borrower_auth_to' => 'required',
+	    'borrower_auth_from,' => 'required_if:borrower_auth_to, borrower_email',
+	    'borrower_status' => 'required',
+	    'borrower_telephone' => 'nullable',
+	    'borrower_terms' => 'required',
         ];
     }
     /**
@@ -47,25 +48,17 @@ class Borrower extends FormRequest
     {
 	    // Load the variables
         return [
-	        'fname.required' => 'Your first name  is required',
-	        'lname.required' => 'Your last name  is required',
-	        'email.required' => 'Your email  is required',
-	        'email.email' => 'Please enter a valid email',
-	        'borrower_cat.required' => 'Please select  a borrowing category',
-	        'telephone_no.required_if' => 'Please enter a phone number we can reach you at',
-	    	'spouse_name.required_if' => 'Please enter the name of your spouse',
-	    	'address1.required_if' => 'Please fill in your address',
-	    	'postal_code.required_if' => 'Please enter your postal code',
-	    	'city.required_if' => 'Please enter your city',
-	    	'province_state.required_if' => 'Please enter the name of your province/state',
-	        'fname.max' => 'Your first name may not be greater than 50 characters',
-	        'lname.max' => 'Your last name  may not be greater than 50 characters',
-	        'email.max' => 'Your email  may not be greater than 254 characters',
-	        'telephone_no.max' => 'Your telephone number  may not be greater than 17 characters',
-	        'spouse_name.max' => 'The spouse name  may not be greater than 50 characters',
-	        'address1.max' => 'The address 1  may not be greater than 120 characters',
-	        'city.max' => 'The city  may not be greater than 50 characters',
-	        'postal_code.max' => 'Your telephone number  may not be greater than 20 characters',
+	        'branch_library.required' => 'Please select  a branch library',
+	        'prof_name.required' => 'Professors name  is required',
+	        'prof_dept.required' => 'Professors department  is required',
+	        'prof_telephone.required' => 'Please enter the Professor\'s phone number',
+	    	'borrower_name.required' => 'Please enter the borrower name',
+	        'borrower_email.required' => 'Please enter the borrower\'s email',
+	        'borrower_email.email' => 'Please enter a valid email for the borrower',
+	    	'borrower_auth_to.required' => 'Please enter the start date of the sponsorship',
+	    	'borrower_auth_from.required' => 'Please enter the end date of the sponsorship',
+	    	'borrower_status.required' => 'Please select the status',
+	        'borrower_terms.required' => 'You must accept the terms before submitting the form',
         ];
     }
 }

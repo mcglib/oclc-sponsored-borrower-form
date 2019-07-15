@@ -44,7 +44,7 @@ services:
     tty: true
     image: 'laravel:latest'
     stdin_open: true
-    build: 
+    build:
       context: ./docker/services/laravel
     labels:
       kompose.service.type: nodeport

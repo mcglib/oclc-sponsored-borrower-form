@@ -28,9 +28,8 @@ class Borrower {
     public $address2;
     public $home_institution;
     public $postal_code, $spouse_name, $province_state;
-    public $expiry_date;    
+    public $expiry_date;
     public $barcode;
- 
 
     private $id;
     private $circInfo = [];
@@ -41,7 +40,7 @@ class Borrower {
     private $barcode_counter_init =  260000;
     private $oclc_data;
     private $error_msg;
-    
+
     private $eTag;
     private $borrowerCategory = 'McGill community borrower';
     private $homeBranch = 262754; // Maybe 262754
@@ -63,14 +62,14 @@ class Borrower {
 	   $this->address2 = $request['address2'] ?? null;
 	   $this->postal_code = $request['postal_code'] ?? null;
 	   $this->province_state = $request['province_state'] ?? "Quebec";
-	   
-	   
+
+
        	   $oclc_config = config('oclc.connections.development');
-	   
+
 	   $this->institutionId = $oclc_config['institution_id'];
 
 	   $this->homeBranch = $oclc_config['home_branch'];
-	   
+
 	   // set the address
 	   $this->addAddress($request);
 	   // set the expiry date
@@ -88,7 +87,7 @@ class Borrower {
       $state = $this->sendRequest($url, $this->getData());
 
       $status = $state['status'];
-      
+
       // if success save data to $this->oclc_data
       if($state['status'] === 201) {
           $this->oclc_data = $state['body'];
@@ -97,7 +96,7 @@ class Borrower {
        	  $this->error_msg = $state['body'];
       }
       return FALSE;
-    
+
     }
 
     public function error_msg() {
@@ -151,7 +150,7 @@ class Borrower {
 	    $log->post = json_encode($body);
 	    $log->form_data = json_encode($this->data);
 	    try {
-		    
+
 		  $log->posted_on = Carbon::now();
 		  $log->save();
 
@@ -161,7 +160,7 @@ class Borrower {
 		  ob_start();
 		   echo $response->getBody();
 		  $body = ob_get_clean();
-		  
+
 		  // get the response and save to db log
 		  $log->status = $response->getStatusCode();
 
@@ -169,19 +168,19 @@ class Borrower {
 		  $log->received_on = Carbon::now();
 		  $log->save();
 
-		  
+
 		  return array("response" => $response,
 			 	 "body" => $body,
 				 "status" => $log->status
 		  );
 	    } catch (RequestException $error) {
-		    
+
 		  $log->status = $error->getResponse()->getStatusCode();
-		  
+
 		  ob_start();
 		  echo (string)$error->getResponse()->getBody();
 		  $body = ob_get_clean();
-		  
+
 		  $log->response = $body;
 		  $log->received_on = Carbon::now();
 		  $log->error_msg = $error->getResponse()->getBody()->getContents();
@@ -192,23 +191,23 @@ class Borrower {
 				 "status" => $log->status
 		  );
 	    }
-    	
+
     }
 
     public function search() {
-    
+
     }
     public function getBorrowerCategoryName($borrow_cat) {
 	 $data = Yaml::parse(file_get_contents(base_path().'/borrowing_categories.yml'));
 	 $key = array_search($borrow_cat, array_column($data['categories'], 'key'));
 	 return $data['categories'][$key]['borrower_category'];
-    	
+
     }
     public function getBorrowerCategoryLabel($borrow_cat) {
 	 $data = Yaml::parse(file_get_contents(base_path().'/borrowing_categories.yml'));
 	 $key = array_search($borrow_cat, array_column($data['categories'], 'key'));
 	 return $data['categories'][$key]['label'];
-    	
+
     }
     public function get_home_institution($key = null) {
       $borrowers = Yaml::parse(
@@ -224,7 +223,7 @@ class Borrower {
 	 $data = Yaml::parse(file_get_contents(base_path().'/borrowing_categories.yml'));
 	 $key = array_search($borrow_cat, array_column($data['categories'], 'key'));
 	 return $data['categories'][$key]['wms_custom_data_3'];
-    
+
     }
     public function getBorrowerCustomData2($borrow_cat){
 	 $data = Yaml::parse(file_get_contents(base_path().'/borrowing_categories.yml'));
@@ -235,15 +234,15 @@ class Borrower {
 	 }else {
 	 	return $data['categories'][$key]['wms_custom_data_2'];
 	 }
-    
+
     }
-    
+
 
     private function addAddress($request) {
 	    if (isset($request['postal_code'])) {
 	       $locality = isset($request['address2']) ? $request['address2'] : "";
 	       $this->addresses[] = [
-		"streetAddress" => $request['address1'], 
+		"streetAddress" => $request['address1'],
 		"region" => $request['city'],
 		"locality" => $locality,
 		"postalCode" => $request['postal_code'],
@@ -251,7 +250,7 @@ class Borrower {
 		"primary" => false
 	       ];
 	    }
-	     
+
     }
 
     //**** Accessors ***//
@@ -289,7 +288,7 @@ class Borrower {
         // increament the last counter
         // write to the counter file
 	$str_val = (string)($curr_val);
-	//$str_val = substr_replace( $str_val, "-", 3, 0 ); 
+	//$str_val = substr_replace( $str_val, "-", 3, 0 );
         return "EXT".$str_val;
 
     }
@@ -314,7 +313,7 @@ class Borrower {
 	 $data = Yaml::parse(file_get_contents(base_path().'/borrowing_categories.yml'));
 	 $key = array_search($borrow_cat, array_column($data['categories'], 'key'));
 	 return $data['categories'][$key]['need_address'];
-    
+
     }
     private function  getNotes() {
 	if (isset($this->spouse_name)) {
@@ -323,28 +322,28 @@ class Borrower {
 		       "note" => $this->spouse_name
 	   );
 	   return array($data);
-	
+
 	}
 	return array();
     }
     private function getCustomData() {
-	
+
 	// Save data depending on the borrower category
-	$custom_data_3 = $this->getBorrowerCustomData3($this->borrower_cat); 
-	$custom_data_2 = $this->getBorrowerCustomData2($this->borrower_cat); 
+	$custom_data_3 = $this->getBorrowerCustomData3($this->borrower_cat);
+	$custom_data_2 = $this->getBorrowerCustomData2($this->borrower_cat);
 
 	$custom_data_2 = mb_convert_encoding($custom_data_2, "UTF-8");
 	$custom_data_3 = mb_convert_encoding($custom_data_3, "UTF-8");
-	
+
 	$data = array();
-	
+
         $data_1 = array(
                "businessContext" => "Circulation_Info",
                "key" => "customdata1",
                "value" => ""
         );
         $data[] = $data_1;
-        
+
         if (!empty($custom_data_2)) {
 	   $data_2 = array(
 		 "businessContext" => "Circulation_Info",
@@ -353,7 +352,7 @@ class Borrower {
 	    );
 	    $data[] = $data_2;
 	}
-        
+
         if (!empty($custom_data_3)) {
 	   $data_3 = array(
 		 "businessContext" => "Circulation_Info",
@@ -363,10 +362,10 @@ class Borrower {
 	    $data[] = $data_3;
         }
 	return $data;
-    
+
     }
     private function getCircInfo() {
-	
+
         return array (
 			'barcode' => $this->barcode,
 			'borrowerCategory' => $this->getBorrowerCategoryName($this->borrower_cat),
@@ -376,7 +375,7 @@ class Borrower {
                         "isCollectionExempt" =>  false,
                         "isFineExempt" => false,
 	);
-    
+
     }
 
     private function getData() {

@@ -3,58 +3,61 @@
 @section('content')
     <h3>Review Submission</h3>
     <form action="store" method="post" id="store-form" >
-	{{ csrf_field() }}
+    {{ csrf_field() }}
+        <h4> Library information </h4>
         <table class="table">
             <tr>
-                <td>First name:</td>
-                <td><strong>{{$borrower->fname}}</strong></td>
+                <td>Branch library:</td>
+                <td><strong>{{$borrower->branch_library}}</strong></td>
+            </tr>
+        </table>
+        <h4> Proffesor's information </h4>
+        <table class="table">
+            <tr>
+                <td>Name:</td>
+                <td><strong>{{$borrower->prof_name}}</strong></td>
             </tr>
             <tr>
-                <td>Last name:</td>
-                <td><strong>{{$borrower->lname}}</strong></td>
+                <td>Department:</td>
+                <td><strong>{{$borrower->prof_dept}}</strong></td>
             </tr>
             <tr>
-                <td>Email address:</td>
-                <td><strong>{{$borrower->email}}</strong></td>
+                <td>Telephone number:</td>
+                <td><strong>{{$borrower->prof_telephone}}</strong></td>
+            </tr>
+        </table>
+        <h4> Borrower's information </h4>
+        <table class="table">
+            <tr>
+                <td>Name:</td>
+                <td><strong>{{$borrower->borrower_name}}</strong></td>
             </tr>
             <tr>
-                <td>Requested Borrowing Category:</td>
-		<td><strong>{{$borrower->getBorrowerCategoryLabel($borrower->borrower_cat)}}</strong>
-		</td>
-	    </tr>
-	    @if (isset($borrower->spouse_name))
-		    <tr>
-			<td>Spouse's name:</td>
-			<td><strong>{{$borrower->spouse_name}}</strong></td>
-		    </tr>
-	    @endif
-	    @if (isset($borrower->home_institution))
-		    <tr>
-			<td>Home institution name:</td>
-			<td><strong>{{ $borrower->home_institution }}</strong></td>
-		    </tr>
-	    @endif
-	    @if (isset($borrower->postal_code))
+                <td>Borrower's Email Address:</td>
+                <td><strong>{{$borrower->borrower_email}}</strong></td>
+            </tr>
             <tr>
-                <td>Address:</td>
-		<td><strong>
-			<address>
-			{{$borrower->address1}}
-			{{$borrower->address2}}<br />
-			{{$borrower->city}}<br />
-			{{$borrower->province_state}}<br />
-			{{$borrower->postal_code}}<br/>
-			</address>
-	            </strong>
-		</td>
-	    </tr>
-	    @endif
-	    @if (isset($borrower->telephone_no))
+                <td>Mail Address:</td>
+                <td><strong>{{$borrower->borrower_address}}</strong></td>
+            </tr>
             <tr>
-                <td>Telephone:</td>
-		<td><strong>{{$borrower->telephone_no}}</strong></td>
-	    </tr>
-	    @endif
+                <td>Period of Authorization From:</td>
+                <td><strong>{{$borrower->borrower_auth_to}}</strong></td>
+            </tr>
+            <tr>
+                <td>Period of Authorization To:</td>
+                <td><strong>{{$borrower->borrower_auth_from}}</strong></td>
+            </tr>
+	        @if (isset($borrower->spouse_name))
+            <tr>
+                <td>The phone number if the borrower is Not a McGill student.:</td>
+                <td><strong>{{$borrower->borrower_telephone}}</strong></td>
+            </tr>
+	        @endif
+            <tr>
+                <td>Borrower's terms:</td>
+                <td><strong>{{$borrower->borrower_terms}}</strong></td>
+            </tr>
         </table>
         <div class="form-group row">
 		<label class="col-lg-4 col-form-label form-control-label"></label>
