@@ -67,7 +67,7 @@ class BorrowerController extends BaseController {
     public function createStep2(Request $request)
     {
         $borrower = $request->session()->get('borrower');
-
+        dd($borrower);
         return view('borrower.create-step2')
           ->with(compact('borrower', $borrower));
     }
@@ -137,7 +137,9 @@ class BorrowerController extends BaseController {
     private function build_borrower($request) {
         $borrower = new \stdClass();
         $borrower->data = $request;
-        $borrower->branch_library = $request['branch_library'];
+        $borrower->branch_library_value  = $request['branch_library'];
+        $borrower->branch_library_name = $this->get_branch_name($request['branch_library']);
+        $borrower->branch_library_email = $this->get_branch_email($request['branch_library']);
 
         $borrower->prof_name = $request['prof_name'];
         $borrower->prof_telephone = $request['prof_telephone'];
@@ -161,6 +163,18 @@ class BorrowerController extends BaseController {
         file_get_contents(base_path().'/branch_libraries.yml'));
       $keys = array_column($branch_libraries['branches'], 'label', 'key');
       return $keys;
+    }
+
+    public function get_branch_name($branch_value) {
+     $data = Yaml::parse(file_get_contents(base_path().'/branch_libraries.yml'));
+     $key = array_search($branch_value, array_column($data['branches'], 'key'));
+     return $data['branches'][$key]['label'];
+    }
+
+    public function get_branch_email($branch_value) {
+     $data = Yaml::parse(file_get_contents(base_path().'/branch_libraries.yml'));
+     $key = array_search($branch_value, array_column($data['branches'], 'key'));
+     return $data['branches'][$key]['email'];
     }
 
     public function verify_real_email($error_email, $borrower) {
