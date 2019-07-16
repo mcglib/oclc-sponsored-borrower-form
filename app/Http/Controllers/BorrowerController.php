@@ -33,6 +33,7 @@ class BorrowerController extends BaseController {
 
         $borrower = $request->session()->get('borrower');
         $branch_libraries = $this->get_branch_libraries();
+        $borrowing_categories = $this->get_borrower_categories();
 
         // clear session data
         $request->session()->forget('borrower');
@@ -40,6 +41,7 @@ class BorrowerController extends BaseController {
         return view('borrower.create-step1')
             ->with(compact('borrower', $borrower))
             ->with(compact('branch_libraries', $branch_libraries))
+            ->with(compact('borrowing_categories', $borrowing_categories))
         ;
 
     }
@@ -135,6 +137,7 @@ class BorrowerController extends BaseController {
     }
 
     private function build_borrower($request) {
+
         $borrower = new \stdClass();
         $borrower->data = $request;
         $borrower->branch_library_value  = $request['branch_library'];
@@ -164,6 +167,14 @@ class BorrowerController extends BaseController {
       $keys = array_column($branch_libraries['branches'], 'label', 'key');
       return $keys;
     }
+
+    public function get_borrower_categories() {
+      $borrowers = Yaml::parse(
+            file_get_contents(base_path().'/borrowing_categories.yml'));
+      $keys = array_column($borrowers['categories'], 'label', 'key');
+      return $keys;
+    }
+
 
     public function get_branch_name($branch_value) {
      $data = Yaml::parse(file_get_contents(base_path().'/branch_libraries.yml'));

@@ -26,8 +26,7 @@ class Borrower {
     public $city;
     public $address1;
     public $address2;
-    public $home_institution;
-    public $postal_code, $spouse_name, $province_state;
+    public $postal_code, $prof_name, $province_state, $prof_dept, $prof_email;
     public $expiry_date;
     public $barcode;
 
@@ -37,7 +36,7 @@ class Borrower {
     private $status;
     private $serviceUrl = '.share.worldcat.org/idaas/scim/v2';
     private $authorizationHeader;
-    private $barcode_counter_init =  260000;
+    private $barcode_counter_init =  670000;
     private $oclc_data;
     private $error_msg;
 
@@ -55,7 +54,7 @@ class Borrower {
 	   $this->email = $request['email'];
 	   $this->borrower_cat = $request['borrower_cat'];
 	   $this->telephone_no = $request['telephone_no'] ?? null;
-	   $this->spouse_name = $request['spouse_name'] ?? null;
+	   $this->prof_name = $request['prof_name'] ?? null;
 	   $this->home_institution = $this->get_home_institution($request['home_institution']) ?? null;
 	   $this->city = $request['city'] ?? null;
 	   $this->address1 = $request['address1'] ?? null;
@@ -316,10 +315,10 @@ class Borrower {
 
     }
     private function  getNotes() {
-	if (isset($this->spouse_name)) {
+	if (isset($this->prof_name)) {
 	   $data = array(
 		       "businessContext" => $this->institutionId,
-		       "note" => $this->spouse_name
+		       "note" => $this->prof_name
 	   );
 	   return array($data);
 

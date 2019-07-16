@@ -1,64 +1,36 @@
 categories:
   - key: value1
-    borrower_category: McGill community borrower
-    label: Faculty member or graduate student at a Canadian University 
-    wms_custom_data_3: Reciprocal graduates & profs
+    borrower_category: McGill faculty and staff
+    label: Visiting Scholar
+    wms_custom_data_3: Visiting scholar
     wms_custom_data_2:
-    home_institution: true
-    need_address: false
+    home_institution: false
+    need_address: true
   - key: value2
-    borrower_category: McGill community borrower
-    label: McGill alumnus or alumna
-    wms_custom_data_3: McGill alumni
-    wms_custom_data_2: 
+    borrower_category: McGill graduate student
+    label: Visiting graduate student
+    wms_custom_data_3: Visiting graduate student
+    wms_custom_data_2:
     home_institution: false
     need_address: true
   - key: value3
-    borrower_category: McGill undergraduate
-    label: McGill Community for Lifelong Learning student
-    wms_custom_data_3: MCLL
+    borrower_category: McGill graduate student
+    label: Sponsored research assistant
+    wms_custom_data_3: Sponsored research assistant
     home_institution: false
     wms_custom_data_2: 
     need_address: true
   - key: value4
-    borrower_category: McGill faculty and staff
-    label: McGill staff spouse	
-    wms_custom_data_3: Faculty spouse
-    home_institution: false
-    wms_custom_data_2: 
-    need_address: true
-  - key: value5
     borrower_category: McGill graduate student
     label: McGill PhD extension
     wms_custom_data_3: PhD extension
     home_institution: false
     wms_custom_data_2: 
     need_address: true
-  - key: value6
-    borrower_category: McGill community borrower
-    label: Member of the public ($100 for 6 months)
-    wms_custom_data_3: Personal (paid)
-    home_institution: false
-    wms_custom_data_2: 
-    need_address: true
-  - key: value8
-    borrower_category: ROAAr reader
-    label: Osler/Rare Books/Archives reader 
-    wms_custom_data_3: Other
-    home_institution: false
-    wms_custom_data_2:
-    need_address: true
-  - key: value9
-    borrower_category: McGill community borrower
-    label: Undergraduate student at a Quebec University
-    wms_custom_data_3: Reciprocal undergrads
-    home_institution: true
-    wms_custom_data_2:
-    need_address: false
-  - key: value10
-    borrower_category: McGill faculty and staff
-    label: Visiting scholar (with letter of invitation)
-    wms_custom_data_3: Visiting scholar
+  - key: value5
+    borrower_category: McGill undergraduate
+    label: Short term program participant
+    wms_custom_data_3: Short term program participant
     home_institution: false
     wms_custom_data_2:
     need_address: true
