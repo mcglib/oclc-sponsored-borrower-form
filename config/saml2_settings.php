@@ -195,21 +195,21 @@ return $settings = array(
     // Contact information template, it is recommended to suply a technical and support contacts
     'contactPerson' => array(
         'technical' => array(
-            'givenName' => 'Steve Lapommeray',
-            'emailAddress' => 'steve.lapommeray@mcgill.ca'
+            'givenName' => env('SAML2_TECHNICAL_CONTACT_NAME', 'name'),
+            'emailAddress' => env('SAML2_TECHNICAL_CONTACT_EMAIL', 'no@reply.com')
         ),
         'support' => array(
-            'givenName' => 'Library Application Developers',
-            'emailAddress' => 'developers.library@mcgill.ca'
+            'givenName' => env('SAML2_SUPPORT_CONTACT_NAME', 'Support'),
+            'emailAddress' => env('SAML2_SUPPORT_CONTACT_EMAIL', 'no@reply.com')
         ),
     ),
 
     // Organization information template, the info in en_US lang is recomended, add more if required
     'organization' => array(
         'en-US' => array(
-            'name' => 'McGill Library',
-            'displayname' => 'McGill University Library',
-            'url' => 'https://www.mcgill.ca/library'
+            'name' => env('SAML2_ORGANIZATION_NAME', 'Name'),
+            'displayname' => env('SAML2_ORGANIZATION_DISPLAY_NAME', 'Display Name'),
+            'url' => env('SAML2_ORGANIZATION_URL', 'https//url')
         ),
     ),
 
