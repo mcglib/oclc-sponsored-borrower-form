@@ -173,10 +173,10 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-	App\Providers\RouteServiceProvider::class,
-    Kris\LaravelFormBuilder\FormBuilderServiceProvider::class,
-    StudentAffairsUwm\Shibboleth\ShibbolethServiceProvider::class,
-    StudentAffairsUwm\Shibboleth\ShibalikeServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
+        Kris\LaravelFormBuilder\FormBuilderServiceProvider::class,
+        StudentAffairsUwm\Shibboleth\ShibbolethServiceProvider::class,
+        StudentAffairsUwm\Shibboleth\ShibalikeServiceProvider::class,
 
     ],
 

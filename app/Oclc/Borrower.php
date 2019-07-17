@@ -17,17 +17,16 @@ class Borrower {
      *
      * @var string
      */
-    public $fname;
-    public $lname;
+    public $borrower_fname;
+    public $borrower_lname;
     public $data = [];
-    public $email;
+    public $borrower_email;
     public $telephone_no;
     public $borrower_cat;
-    public $city;
+    public $borrower_city;
     public $address1;
     public $address2;
-    public $home_institution;
-    public $postal_code, $spouse_name, $province_state;
+    public $borrower_postal_code, $prof_name, $borrower_province_state, $prof_dept, $prof_email;
     public $expiry_date;
     public $barcode;
 
@@ -37,7 +36,7 @@ class Borrower {
     private $status;
     private $serviceUrl = '.share.worldcat.org/idaas/scim/v2';
     private $authorizationHeader;
-    private $barcode_counter_init =  260000;
+    private $barcode_counter_init =  670000;
     private $oclc_data;
     private $error_msg;
 
@@ -46,22 +45,21 @@ class Borrower {
     private $homeBranch = 262754; // Maybe 262754
     private $institutionId;
 
-    function __construct(array $request = []) {
+    function __construct($request) {
 	   // Set the variables
 	    $this->data = $request;
 
-	   $this->fname = $request['fname'];
-	   $this->lname = $request['lname'];
-	   $this->email = $request['email'];
+	   $this->borrower_fname = $request['borrower_fname'];
+	   $this->borrower_lname = $request['borrower_lname'];
+	   $this->borrower_email = $request['email'];
 	   $this->borrower_cat = $request['borrower_cat'];
 	   $this->telephone_no = $request['telephone_no'] ?? null;
-	   $this->spouse_name = $request['spouse_name'] ?? null;
-	   $this->home_institution = $this->get_home_institution($request['home_institution']) ?? null;
-	   $this->city = $request['city'] ?? null;
+	   $this->prof_name = $request['prof_name'] ?? null;
+	   $this->borrower_city = $request['borrower_city'] ?? null;
 	   $this->address1 = $request['address1'] ?? null;
 	   $this->address2 = $request['address2'] ?? null;
-	   $this->postal_code = $request['postal_code'] ?? null;
-	   $this->province_state = $request['province_state'] ?? "Quebec";
+	   $this->borrower_postal_code = $request['borrower_postal_code'] ?? null;
+	   $this->borrower_province_state = $request['borrower_province_state'] ?? "Quebec";
 
 
        	   $oclc_config = config('oclc.connections.development');
@@ -198,9 +196,9 @@ class Borrower {
 
     }
     public function getBorrowerCategoryName($borrow_cat) {
-	 $data = Yaml::parse(file_get_contents(base_path().'/borrowing_categories.yml'));
-	 $key = array_search($borrow_cat, array_column($data['categories'], 'key'));
-	 return $data['categories'][$key]['borrower_category'];
+     $data = Yaml::parse(file_get_contents(base_path().'/borrowing_categories.yml'));
+     $key = array_search($borrow_cat, array_column($data['categories'], 'key'));
+     return $data['categories'][$key]['borrower_category'];
 
     }
     public function getBorrowerCategoryLabel($borrow_cat) {
@@ -239,13 +237,13 @@ class Borrower {
 
 
     private function addAddress($request) {
-	    if (isset($request['postal_code'])) {
+	    if (isset($request['borrower_postal_code'])) {
 	       $locality = isset($request['address2']) ? $request['address2'] : "";
 	       $this->addresses[] = [
 		"streetAddress" => $request['address1'],
-		"region" => $request['city'],
+		"region" => $request['borrower_city'],
 		"locality" => $locality,
-		"postalCode" => $request['postal_code'],
+		"postalCode" => $request['borrower_postal_code'],
 		"type" => "",
 		"primary" => false
 	       ];
@@ -254,8 +252,8 @@ class Borrower {
     }
 
     //**** Accessors ***//
-    public function getFNameAttribute() {
-    	return $this->fname;
+    public function getborrower_fnameAttribute() {
+    	return $this->borrower_fname;
     }
     public function getRequestAttribute() {
     	return $this->request;
@@ -269,8 +267,8 @@ class Borrower {
     public function getBarcodeAttribute() {
     	return $this->barcode;
     }
-    public function getLNameAttribute() {
-    	return $this->lname;
+    public function getborrower_lnameAttribute() {
+    	return $this->borrower_lname;
     }
 
     public function generateBarcode() {
@@ -297,9 +295,9 @@ class Borrower {
 		    return array(
 			    0 => array (
 			      'streetAddress' => $this->address1." ".$this->address2,
-			      'locality' => $this->city ?? "",
-			      'region' => $this->province_state ?? "",
-			      'postalCode' => $this->postal_code ?? "",
+			      'locality' => $this->borrower_city ?? "",
+			      'region' => $this->borrower_province_state ?? "",
+			      'postalCode' => $this->borrower_postal_code ?? "",
 			      //'type' => $this->defaultType,
 			      'type' => "",
 			      'primary' => false,
@@ -316,10 +314,10 @@ class Borrower {
 
     }
     private function  getNotes() {
-	if (isset($this->spouse_name)) {
+	if (isset($this->prof_name)) {
 	   $data = array(
 		       "businessContext" => $this->institutionId,
-		       "note" => $this->spouse_name
+		       "note" => $this->prof_name
 	   );
 	   return array($data);
 
@@ -390,8 +388,8 @@ class Borrower {
 		 6 => 'urn:mace:oclc.org:eidm:schema:persona:newnotes:20180101'
 	  ),
 	  'name' => array (
-		'familyName' => $this->lname,
-		'givenName' => $this->fname,
+		'familyName' => $this->borrower_lname,
+		'givenName' => $this->borrower_fname,
 		'middleName' => '',
 		'honorificPrefix' => '',
 		'honorificSuffix' => '',
