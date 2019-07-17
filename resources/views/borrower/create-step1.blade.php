@@ -19,6 +19,18 @@
 		   <form action="create-step1" method="post">
 		    {{ csrf_field() }}
 			<fieldset class="form-group" id="library_information">
+				<legend>Sponsored Borrower</legend>
+                <div class="form-group">
+                   <label for="borrower_status" class="control-label"></label><br />
+                   {!! Form::checkbox('borrower_status', $borrower->borrower_status ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                   This submission is for the renewal of an existing Sponsored Borrower.<span class="required">*</span>
+                </div>
+                <div class="form-group">
+                    <label for="borrower_category" class="control-label required">Sponsored Borrower<span class="required">*</span></label>
+                    {!! Form::select('borrower_category', array_merge(['' => 'Please select the category'], $borrowing_categories), $borrower->borrower_category ?? null, ['class' => 'form-control', 'required' => 'required']) !!}
+                </div>
+            </fieldset>
+			<fieldset class="form-group" id="library_information">
 				<legend>Library information</legend>
                 <div class="form-group">
                     <label for="branch_library" class="control-label required">Branch Library<span class="required">*</span></label>
@@ -26,10 +38,14 @@
                 </div>
             </fieldset>
 			<fieldset class="form-group" id="professors_information">
-				<legend>Professors information</legend>
+				<legend>Professor information</legend>
                 <div class="form-group">
                     <label for="prof_name" class="control-label required">Name <span class="required">*</span></label>
                     {!! Form::input('text', 'prof_name', $borrower->prof_name ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                </div>
+                <div class="form-group">
+                    <label for="prof_email" class="control-label required">Email Address <span class="required">*</span></label>
+                    {!! Form::input('email', 'prof_email', $borrower->prof_email ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
                 </div>
                 <div class="form-group">
                     <label for="prof_dept" class="control-label required">Department <span class="required">*</span></label>
@@ -43,35 +59,49 @@
 			<fieldset class="form-group" id="borrower_information">
 				<legend>Borrower information</legend>
                 <div class="form-group">
-                    <label for="borrower_name" class="control-label required">Name <span class="required">*</span></label>
-                    {!! Form::input('text', 'borrower_name', $borrower->borrower_name ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                    <label for="borrower_fname" class="control-label required">First name <span class="required">*</span></label>
+                    {!! Form::input('text', 'borrower_fname', $borrower->borrower_fname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="borrower_email" class="control-label required">Borrower's Email Address <span class="required">*</span></label>
+                    <label for="borrower_lname" class="control-label required">Last name <span class="required">*</span></label>
+                    {!! Form::input('text', 'borrower_lname', $borrower->borrower_lname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+                </div>
+                <div class="form-group">
+                    <label for="borrower_email" class="control-label required">Email address <span class="required">*</span></label>
                     {!! Form::input('email', 'borrower_email', $borrower->borrower_email ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
                 </div>
+
                 <div class="form-group">
-                    <label for="borrower_address" class="control-label">Mailing Address</label>
-                    {!! Form::textarea('borrower_address',$borrower->borrower_address ?? null, array('class'=>'form-control','rows' => 8, 'cols' => 50)) !!}
+                    <label for="borrower_address1" class="control-label">Street address 1<span class="required">*</span></label>
+                     {!! Form::input('text', 'borrower_address1', $borrower->borrower_address1 ?? null, ['class'=> 'form-control']) !!}
                 </div>
                <div class="form-group">
-                <label for="borrower_auth_from" class="control-label">Period of Authorization From<span class="required">*</span></label>
-                {!! Form::date('borrower_auth_from',$borrower->borrower_auth_from ?? \Carbon\Carbon::now()->format('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
+                    <label for="borrower_address2" class="control-label">Street address 2</label>
+                     {!! Form::input('text', 'borrower_address2', $borrower->borrower_address2 ?? null, ['class'=> 'form-control']) !!}
                </div>
-               <div class="form-group">
-                <label for="borrower_auth_to" class="control-label">Period of Authorization To<span class="required">*</span></label>
-                {!! Form::date('borrower_auth_to', $borrower->borrower_auth_to ?? \Carbon\Carbon::today()->addYears(1)->format('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
-               </div>
-               <div class="form-group">
-               <label for="borrower_status" class="control-label">Borrower's status<span class="required">*</span></label><br />
-               {{ Form::radio('borrower_status', $borrower->borrower_status ?? null, true ) }} The authorized borrower is a McGill student.
-               {{ Form::radio('borrower_status', $borrower->borrower_status ?? null, false) }} The authorized borrower is not a McGill student.
-               </div>
+
+                <div class="form-group">
+                    <label for="borrower_city" class="control-label">City<span class="required">*</span></label>
+                     {!! Form::input('text', 'borrower_city', $borrower->borrower_city ?? null, ['class'=> 'form-control']) !!}
+                </div>
+                <div class="form-group">
+                    <label for="borrower_province" class="control-label">Province/State<span class="required">*</span></label>
+                     {!! Form::input('text', 'borrower_province_state', $borrower->borrower_province_state ?? null, ['class'=> 'form-control']) !!}
+                </div>
+                <div class="form-group">
+                    <label for="borrower_postal_code" class="control-label">Postal code<span class="required">*</span></label>
+                     {!! Form::input('text', 'borrower_postal_code', $borrower->borrower_postal_code ?? null, ['class'=> 'form-control', 'placeholder' => 'XXX XXX']) !!}
+                </div>
+                <br />
                 <hr />
-                <p>Please fill in the phone number and address if the borrower is Not a McGill student.</p>
+                <br />
                <div class="form-group">
-                    <label for="borrower_telephone" class="control-label ">Telephone Number </label>
-                    {!! Form::input('text', 'borrower_telephone', $borrower->borrower_telephone ?? null, ['class'=> 'form-control']) !!}
+                <label for="borrower_startdate" class="control-label">Period of Authorization From<span class="required">*</span></label>
+                {!! Form::date('borrower_startdate',$borrower->borrower_startdate ?? \Carbon\Carbon::now()->format('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
+               </div>
+               <div class="form-group">
+                <label for="borrower_enddate" class="control-label">Period of Authorization To<span class="required">*</span></label>
+                {!! Form::date('borrower_enddate', $borrower->borrower_enddate ?? \Carbon\Carbon::today()->addYears(1)->format('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
                </div>
             </fieldset>
             <hr />

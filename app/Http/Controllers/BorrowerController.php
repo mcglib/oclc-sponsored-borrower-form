@@ -33,6 +33,7 @@ class BorrowerController extends BaseController {
 
         $borrower = $request->session()->get('borrower');
         $branch_libraries = $this->get_branch_libraries();
+        $borrowing_categories = $this->get_borrower_categories();
 
         // clear session data
         $request->session()->forget('borrower');
@@ -40,6 +41,7 @@ class BorrowerController extends BaseController {
         return view('borrower.create-step1')
             ->with(compact('borrower', $borrower))
             ->with(compact('branch_libraries', $branch_libraries))
+            ->with(compact('borrowing_categories', $borrowing_categories))
         ;
 
     }
@@ -67,7 +69,7 @@ class BorrowerController extends BaseController {
     public function createStep2(Request $request)
     {
         $borrower = $request->session()->get('borrower');
-
+        dd($borrower);
         return view('borrower.create-step2')
           ->with(compact('borrower', $borrower));
     }
@@ -101,15 +103,24 @@ class BorrowerController extends BaseController {
        $error_email = $_ENV['MAIL_ERROR_EMAIL_ADDRESS'] ?? 'dev.library@mcgill.ca';
 
        // Verify the email before sending or creating a record.
-       if (!$this->verify_real_email($error_email, $borrower)) {
+       if (!$this->verify_real_email($error_email, $borrower->borrower_email)) {
 
             $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
-	        Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
-
-	    $request->session()->flash('message', $error_msg);
-       	    return redirect('error')
+            Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
+            $request->session()->flash('message', $error_msg);
+            return redirect('error')
                    ->with('error', $error_msg);
        }
+       // Verify the profs email before sending or creating a record.
+       // Verify the email before sending or creating a record.
+       if (!$this->verify_real_email($error_email, $borrower->prof_email)) {
+            $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
+            Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
+            $request->session()->flash('message', $error_msg);
+            return redirect('error')
+                   ->with('error', $error_msg);
+       }
+
 
 
        if ($borrower->create()){
@@ -135,25 +146,35 @@ class BorrowerController extends BaseController {
     }
 
     private function build_borrower($request) {
+
         $borrower = new \stdClass();
         $borrower->data = $request;
-        $borrower->branch_library = $request['branch_library'];
+        $borrower->branch_library_value  = $request['branch_library'];
+        $borrower->branch_library_name = $this->get_branch_name($request['branch_library']);
+        $borrower->branch_library_email = $this->get_branch_email($request['branch_library']);
 
         $borrower->prof_name = $request['prof_name'];
         $borrower->prof_telephone = $request['prof_telephone'];
         $borrower->prof_dept = $request['prof_dept'];
+        $borrower->prof_email = $request['prof_email'];
 
-        $borrower->borrower_name = $request['borrower_name'];
+        $borrower->borrower_cat  = $request['borrower_category'];
+        $borrower->borrower_fname = $request['borrower_fname'];
+        $borrower->borrower_lname = $request['borrower_lname'];
         $borrower->borrower_email = $request['borrower_email'];
-        $borrower->borrower_address = $request['borrower_address'] ?? null;
-        $borrower->borrower_auth_to = $request['borrower_auth_to'];
-        $borrower->borrower_auth_from = $request['borrower_auth_from'] ?? null;
+        $borrower->borrower_address1 = $request['borrower_address1'];
+        $borrower->borrower_address2 = $request['borrower_address2'] ?? null;
+        $borrower->borrower_city = $request['borrower_city'];
+        $borrower->borrower_postal_code = $request['borrower_postal_code'];
+        $borrower->borrower_province_state = $request['borrower_province_state'];
+        $borrower->borrower_startdate = $request['borrower_startdate'];
+        $borrower->borrower_enddate = $request['borrower_enddate'] ?? null;
         $borrower->borrower_status = $request['borrower_status'];
         $borrower->borrower_telephone = $request['borrower_telephone'] ?? null;
         $borrower->borrower_terms = $request['borrower_terms'];
 
-
-        return $borrower;
+        // Lets build the OCLC object
+        return new \App\Oclc\Borrower($borrower);
     }
 
     public function get_branch_libraries() {
@@ -161,6 +182,26 @@ class BorrowerController extends BaseController {
         file_get_contents(base_path().'/branch_libraries.yml'));
       $keys = array_column($branch_libraries['branches'], 'label', 'key');
       return $keys;
+    }
+
+    public function get_borrower_categories() {
+      $borrowers = Yaml::parse(
+            file_get_contents(base_path().'/borrowing_categories.yml'));
+      $keys = array_column($borrowers['categories'], 'label', 'key');
+      return $keys;
+    }
+
+
+    public function get_branch_name($branch_value) {
+     $data = Yaml::parse(file_get_contents(base_path().'/branch_libraries.yml'));
+     $key = array_search($branch_value, array_column($data['branches'], 'key'));
+     return $data['branches'][$key]['label'];
+    }
+
+    public function get_branch_email($branch_value) {
+     $data = Yaml::parse(file_get_contents(base_path().'/branch_libraries.yml'));
+     $key = array_search($branch_value, array_column($data['branches'], 'key'));
+     return $data['branches'][$key]['email'];
     }
 
     public function verify_real_email($error_email, $borrower) {

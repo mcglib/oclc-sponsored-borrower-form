@@ -8,7 +8,7 @@
         <table class="table">
             <tr>
                 <td>Branch library:</td>
-                <td><strong>{{$borrower->branch_library}}</strong></td>
+                <td><strong>{{$borrower->get_branch_library}}</strong></td>
             </tr>
         </table>
         <h4> Proffesor's information </h4>

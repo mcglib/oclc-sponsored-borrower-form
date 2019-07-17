@@ -25,18 +25,6 @@ class Sponsor extends FormRequest
     public function rules()
     {
         return [
-	    'fname' => 'required|max:50',
-	    'lname' => 'required|max:50',
-	    'email' => 'required|email|max:254',
-	    'borrower_cat' => 'required',
-	    'address2' => 'nullable',
-	    'telephone_no' => 'required_if:borrower_cat,value2,value3,value4,value5,value6,value8,value10|max:17',
-	    'spouse_name' => 'required_if:borrower_cat,value4|max:50',
-	    'address1' => 'required_if:borrower_cat,value2,value3,value4,value5,value6,value8,value10|max:120',
-	    'city' => 'required_if:borrower_cat,value2,value3,value4,value5,value6,value8,value10|max:50',
-	    'province_state' => 'required_if:borrower_cat,value2,value3,value4,value5,value6,value8,value10|max:50',
-	    'postal_code' => 'required_if:borrower_cat,value2,value3,value4,value5,value6,value8,value10|max:20',
-	    'home_institution' => 'required_if:borrower_cat,value1,value9|max:120',
         ];
     }
     /**
