@@ -96,12 +96,12 @@
                 <hr />
                 <br />
                <div class="form-group">
-                <label for="borrower_auth_from" class="control-label">Period of Authorization From<span class="required">*</span></label>
-                {!! Form::date('borrower_auth_from',$borrower->borrower_auth_from ?? \Carbon\Carbon::now()->format('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
+                <label for="borrower_startdate" class="control-label">Period of Authorization From<span class="required">*</span></label>
+                {!! Form::date('borrower_startdate',$borrower->borrower_startdate ?? \Carbon\Carbon::now()->format('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
                </div>
                <div class="form-group">
-                <label for="borrower_auth_to" class="control-label">Period of Authorization To<span class="required">*</span></label>
-                {!! Form::date('borrower_auth_to', $borrower->borrower_auth_to ?? \Carbon\Carbon::today()->addYears(1)->format('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
+                <label for="borrower_enddate" class="control-label">Period of Authorization To<span class="required">*</span></label>
+                {!! Form::date('borrower_enddate', $borrower->borrower_enddate ?? \Carbon\Carbon::today()->addYears(1)->format('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
                </div>
             </fieldset>
             <hr />
