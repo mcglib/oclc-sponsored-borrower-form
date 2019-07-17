@@ -104,7 +104,7 @@ class BorrowerController extends BaseController {
        $error_email = $_ENV['MAIL_ERROR_EMAIL_ADDRESS'] ?? 'dev.library@mcgill.ca';
 
        // Verify the email before sending or creating a record.
-       if (!$this->verify_real_email($error_email, $borrower->borrower_email)) {
+       if (!$this->verify_real_email($error_email, $borrower->borrower_email, $borrower)) {
 
             $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
             Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
@@ -114,16 +114,13 @@ class BorrowerController extends BaseController {
        }
        // Verify the profs email before sending or creating a record.
        // Verify the email before sending or creating a record.
-       if (!$this->verify_real_email($error_email, $borrower->prof_email)) {
-            $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
+       if (!$this->verify_real_email($error_email, $borrower->prof_email, $borrower)) {
+            $error_msg = "The email address $borrower->prof_email does not exist. Please check your spelling.";
             Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
             $request->session()->flash('message', $error_msg);
             return redirect('error')
                    ->with('error', $error_msg);
        }
-
-
-
 
        if ($borrower->create()){
 
@@ -206,7 +203,7 @@ class BorrowerController extends BaseController {
      return $data['branches'][$key]['email'];
     }
 
-    public function verify_real_email($error_email, $test_email) {
+    public function verify_real_email($error_email, $test_email, $borrower) {
 
         $valid = true;
             // Initialize library class
