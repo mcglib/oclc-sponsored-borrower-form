@@ -205,6 +205,7 @@ class BorrowerController extends BaseController {
 
     public function verify_real_email($error_email, $test_email, $borrower) {
 
+        
         $valid = true;
             // Initialize library class
         $mail = new VerifyEmailService();
@@ -225,6 +226,7 @@ class BorrowerController extends BaseController {
             $result = Mail::to($test_email)->send(new AccountCreated($borrower));
         }catch(\Swift_TransportException $e){
             $response = $e->getMessage() ;
+            dd($e->getMessage());
             $valid = false;
         }
         // Check if email is valid and exist
