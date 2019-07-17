@@ -21,12 +21,14 @@ class Borrower {
     public $borrower_lname;
     public $data = [];
     public $borrower_email;
-    public $telephone_no;
+    public $borrower_telephone;
     public $borrower_cat;
     public $borrower_city;
-    public $address1;
-    public $address2;
-    public $borrower_postal_code, $prof_name, $borrower_province_state, $prof_dept, $prof_email;
+    public $borrower_address1;
+    public $borrower_address2;
+    public $borrower_enddate, $borrower_startdate;
+    public $borrower_postal_code, $borrower_province_state;
+    public $prof_name, $prof_dept, $prof_email;
     public $expiry_date;
     public $barcode;
 
@@ -51,28 +53,34 @@ class Borrower {
 
 	   $this->borrower_fname = $request['borrower_fname'];
 	   $this->borrower_lname = $request['borrower_lname'];
-	   $this->borrower_email = $request['email'];
+	   $this->borrower_email = $request['borrower_email'];
 	   $this->borrower_cat = $request['borrower_cat'];
-	   $this->telephone_no = $request['telephone_no'] ?? null;
+	   $this->borrower_telephone = $request['borrower_telephone'] ?? null;
 	   $this->prof_name = $request['prof_name'] ?? null;
+	   $this->prof_dept = $request['prof_dept'] ?? null;
+	   $this->prof_email = $request['prof_email'] ?? null;
 	   $this->borrower_city = $request['borrower_city'] ?? null;
-	   $this->address1 = $request['address1'] ?? null;
-	   $this->address2 = $request['address2'] ?? null;
+	   $this->borrower_address1 = $request['borrower_address1'] ?? null;
+	   $this->borrower_address2 = $request['borrower_address2'] ?? null;
 	   $this->borrower_postal_code = $request['borrower_postal_code'] ?? null;
+	   $this->borrower_enddate = $request['borrower_enddate'] ?? null;
+	   $this->borrower_startdate = $request['borrower_startdate'] ?? null;
 	   $this->borrower_province_state = $request['borrower_province_state'] ?? "Quebec";
 
 
-       	   $oclc_config = config('oclc.connections.development');
+       $oclc_config = config('oclc.connections.development');
 
 	   $this->institutionId = $oclc_config['institution_id'];
 
 	   $this->homeBranch = $oclc_config['home_branch'];
 
 	   // set the address
-	   $this->addAddress($request);
+       $this->addAddress($request);
+
 	   // set the expiry date
-	   $this->expiry_date = $this->setExpiryDate();
-	    // Generate the barcode
+	   $this->expiry_date = $this->setExpiryDate($request['borrower_enddate']);
+
+       // Generate the barcode
 	   $this->barcode = $this->generateBarCode();
     }
     public function create() {
@@ -120,7 +128,7 @@ class Borrower {
 
     }
 
-    private function setExpiryDate() {
+    private function setExpiryDate($end_date) {
        $futureDate = date('Y-m-d', strtotime('+1 year'));
        return $futureDate."T00:00:00Z";
 
@@ -238,9 +246,9 @@ class Borrower {
 
     private function addAddress($request) {
 	    if (isset($request['borrower_postal_code'])) {
-	       $locality = isset($request['address2']) ? $request['address2'] : "";
+	       $locality = isset($request['borrower_address2']) ? $request['borrower_address2'] : "";
 	       $this->addresses[] = [
-		"streetAddress" => $request['address1'],
+		"streetAddress" => $request['borrower_address1'],
 		"region" => $request['borrower_city'],
 		"locality" => $locality,
 		"postalCode" => $request['borrower_postal_code'],
@@ -262,7 +270,7 @@ class Borrower {
     	return $this->email;
     }
     public function getTelephoneNoAttribute() {
-    	return $this->telephone_no;
+    	return $this->borrower_telephone;
     }
     public function getBarcodeAttribute() {
     	return $this->barcode;
@@ -294,7 +302,7 @@ class Borrower {
 	    if($this->requiresAddress($this->borrower_cat)) {
 		    return array(
 			    0 => array (
-			      'streetAddress' => $this->address1." ".$this->address2,
+			      'streetAddress' => $this->borrower_address1." ".$this->borrower_address2,
 			      'locality' => $this->borrower_city ?? "",
 			      'region' => $this->borrower_province_state ?? "",
 			      'postalCode' => $this->borrower_postal_code ?? "",
@@ -377,7 +385,7 @@ class Borrower {
     }
 
     private function getData() {
-	$data = array (
+	       $data = array (
 	  'schemas' => array (
 		 0 => 'urn:ietf:params:scim:schemas:core:2.0:User',
 		 1 => 'urn:mace:oclc.org:eidm:schema:persona:correlationinfo:20180101',
@@ -405,7 +413,7 @@ class Borrower {
 	  ),
 	  'phoneNumbers' => array (
 		0 =>  array (
-			'value' => $this->telephone_no,
+			'value' => $this->borrower_telephone,
 			'type' => $this->defaultType,
 			'primary' => true,
 		),

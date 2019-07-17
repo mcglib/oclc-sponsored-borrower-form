@@ -35,7 +35,7 @@ class BorrowerController extends BaseController {
         $branch_libraries = $this->get_branch_libraries();
         $borrowing_categories = $this->get_borrower_categories();
 
-        // clear session data
+        // clear session data for borrower
         $request->session()->forget('borrower');
 
         return view('borrower.create-step1')
@@ -69,7 +69,6 @@ class BorrowerController extends BaseController {
     public function createStep2(Request $request)
     {
         $borrower = $request->session()->get('borrower');
-        dd($borrower);
         return view('borrower.create-step2')
           ->with(compact('borrower', $borrower));
     }
@@ -174,7 +173,7 @@ class BorrowerController extends BaseController {
         $borrower->borrower_terms = $request['borrower_terms'];
 
         // Lets build the OCLC object
-        return new \App\Oclc\Borrower($borrower);
+        return new \App\Oclc\Borrower((array)$borrower);
     }
 
     public function get_branch_libraries() {
