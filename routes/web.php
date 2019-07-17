@@ -49,3 +49,11 @@ Route::post('store', [
            'as' => 'borrower.store'
 ]);
 
+Route::get('/login', function () {
+    return Saml2::login(url('/'));
+});
+
+Route::get('/logout', function () {
+    $url = route('saml_logout');
+    return redirect($url);
+});
