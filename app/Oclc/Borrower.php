@@ -28,6 +28,7 @@ class Borrower {
     public $borrower_address2;
     public $borrower_enddate, $borrower_startdate;
     public $borrower_postal_code, $borrower_province_state;
+    public $branch_library_name, $branch_library_email, $branch_library_value;
     public $prof_name, $prof_dept, $prof_email;
     public $expiry_date;
     public $barcode;
@@ -56,10 +57,17 @@ class Borrower {
 	   $this->borrower_email = $request['borrower_email'];
 	   $this->borrower_cat = $request['borrower_cat'];
 	   $this->borrower_telephone = $request['borrower_telephone'] ?? null;
-	   $this->prof_name = $request['prof_name'] ?? null;
+
+       $this->prof_name = $request['prof_name'] ?? null;
 	   $this->prof_dept = $request['prof_dept'] ?? null;
 	   $this->prof_email = $request['prof_email'] ?? null;
-	   $this->borrower_city = $request['borrower_city'] ?? null;
+
+       $this->branch_library_name = $request['branch_library_name'] ?? null;
+       $this->branch_library_value = $request['branch_library_name'] ?? null;
+       $this->branch_library_email = $request['branch_library_name'] ?? null;
+
+       $this->borrower_city = $request['borrower_city'] ?? null;
+       $this->borrower_terms = $request['borrower_terms'] ?? false;
 	   $this->borrower_address1 = $request['borrower_address1'] ?? null;
 	   $this->borrower_address2 = $request['borrower_address2'] ?? null;
 	   $this->borrower_postal_code = $request['borrower_postal_code'] ?? null;
@@ -215,9 +223,9 @@ class Borrower {
 	 return $data['categories'][$key]['label'];
 
     }
-    public function get_home_institution($key = null) {
+    public function get_branch_library($key = null) {
       $borrowers = Yaml::parse(
-		    file_get_contents(base_path().'/home_institutions.yml'));
+        file_get_contents(base_path().'/branch_libraries.yml'));
       $keys = $borrowers['institutions'];
       if (!is_null($key)) {
         return $keys[$key];
@@ -226,20 +234,20 @@ class Borrower {
     }
 
     public function getBorrowerCustomData3($borrow_cat) {
-	 $data = Yaml::parse(file_get_contents(base_path().'/borrowing_categories.yml'));
-	 $key = array_search($borrow_cat, array_column($data['categories'], 'key'));
-	 return $data['categories'][$key]['wms_custom_data_3'];
+         $data = Yaml::parse(file_get_contents(base_path().'/borrowing_categories.yml'));
+         $key = array_search($borrow_cat, array_column($data['categories'], 'key'));
+         return $data['categories'][$key]['wms_custom_data_3'];
 
     }
     public function getBorrowerCustomData2($borrow_cat){
-	 $data = Yaml::parse(file_get_contents(base_path().'/borrowing_categories.yml'));
-	 $key = array_search($borrow_cat, array_column($data['categories'], 'key'));
-	 $is_home_inst = $data['categories'][$key]['home_institution'];
-	 if ($is_home_inst) {
-	 	return $this->home_institution;
-	 }else {
-	 	return $data['categories'][$key]['wms_custom_data_2'];
-	 }
+         $data = Yaml::parse(file_get_contents(base_path().'/borrowing_categories.yml'));
+         $key = array_search($borrow_cat, array_column($data['categories'], 'key'));
+         $is_home_inst = $data['categories'][$key]['home_institution'];
+         if ($is_home_inst) {
+            return $this->home_institution;
+         }else {
+            return $data['categories'][$key]['wms_custom_data_2'];
+         }
 
     }
 
@@ -281,38 +289,38 @@ class Borrower {
 
     public function generateBarcode() {
 
-	if (Storage::disk('local')->exists('counter')){
-	   $curr_val = (int)Storage::disk('local')->get('counter');
-	   $curr_val++;
-	}else {
-	   $curr_val = $this->barcode_counter_init;
-	}
-	Storage::disk('local')->put('counter', $curr_val);
+        if (Storage::disk('local')->exists('counter')){
+           $curr_val = (int)Storage::disk('local')->get('counter');
+           $curr_val++;
+        }else {
+           $curr_val = $this->barcode_counter_init;
+        }
+        Storage::disk('local')->put('counter', $curr_val);
 
 
-	// Read the counter
-        // increament the last counter
-        // write to the counter file
-	$str_val = (string)($curr_val);
-	//$str_val = substr_replace( $str_val, "-", 3, 0 );
-        return "EXT".$str_val;
+        // Read the counter
+            // increament the last counter
+            // write to the counter file
+        $str_val = (string)($curr_val);
+        //$str_val = substr_replace( $str_val, "-", 3, 0 );
+            return "EXT".$str_val;
 
     }
     private function getAddresses() {
-	    if($this->requiresAddress($this->borrower_cat)) {
-		    return array(
-			    0 => array (
-			      'streetAddress' => $this->borrower_address1." ".$this->borrower_address2,
-			      'locality' => $this->borrower_city ?? "",
-			      'region' => $this->borrower_province_state ?? "",
-			      'postalCode' => $this->borrower_postal_code ?? "",
-			      //'type' => $this->defaultType,
-			      'type' => "",
-			      'primary' => false,
-			   )
-		   );
-	    }
-	    return null;
+        if($this->requiresAddress($this->borrower_cat)) {
+            return array(
+                0 => array (
+                  'streetAddress' => $this->borrower_address1." ".$this->borrower_address2,
+                  'locality' => $this->borrower_city ?? "",
+                  'region' => $this->borrower_province_state ?? "",
+                  'postalCode' => $this->borrower_postal_code ?? "",
+                  //'type' => $this->defaultType,
+                  'type' => "",
+                  'primary' => false,
+               )
+           );
+        }
+        return null;
 
     }
     private function requiresAddress($borrow_cat) {

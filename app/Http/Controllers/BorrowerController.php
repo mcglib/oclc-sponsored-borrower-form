@@ -72,6 +72,7 @@ class BorrowerController extends BaseController {
         return view('borrower.create-step2')
           ->with(compact('borrower', $borrower));
     }
+
     public function created(Request $request)
     {
         $borrower = $request->session()->get('borrower');
@@ -82,10 +83,11 @@ class BorrowerController extends BaseController {
                 return redirect('/create-step1');
         }
         // clear session data
-            $request->session()->flush();
-            return view('borrower.success')
-              ->with(compact('borrower', $borrower));
+        $request->session()->flush();
+        return view('borrower.success')
+          ->with(compact('borrower', $borrower));
     }
+
     public function errorPage(Request $request)
     {
         $borrower = $request->session()->get('borrower');
@@ -119,6 +121,7 @@ class BorrowerController extends BaseController {
             return redirect('error')
                    ->with('error', $error_msg);
        }
+
 
 
 
@@ -203,7 +206,7 @@ class BorrowerController extends BaseController {
      return $data['branches'][$key]['email'];
     }
 
-    public function verify_real_email($error_email, $borrower) {
+    public function verify_real_email($error_email, $test_email) {
 
         $valid = true;
             // Initialize library class
@@ -221,14 +224,12 @@ class BorrowerController extends BaseController {
 
         // Email to check
         // check the result of the mail before creating the account
-            try{
-                $result = Mail::to($borrower->email)->send(new AccountCreated($borrower));
+        try{
+            $result = Mail::to($test_email)->send(new AccountCreated($borrower));
         }catch(\Swift_TransportException $e){
             $response = $e->getMessage() ;
             $valid = false;
         }
-
-
         // Check if email is valid and exist
         return $valid;
 
