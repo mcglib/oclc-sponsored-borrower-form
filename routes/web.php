@@ -11,6 +11,8 @@
 |
 */
 
+use Aacotroneo\Saml2\Events\Saml2LogoutEvent;
+
 Route::get('/', function () {
 	    return view('borrower');
 });
@@ -54,6 +56,6 @@ Route::get('/login', function () {
 });
 
 Route::get('/logout', function () {
-    $url = route('saml_logout');
-    return redirect($url);
+    event(new Saml2LogoutEvent());
+    Saml2::logout();
 });
