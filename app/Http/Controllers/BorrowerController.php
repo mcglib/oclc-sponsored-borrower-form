@@ -147,10 +147,17 @@ class BorrowerController extends BaseController {
         $borrower->prof_name = $request['prof_name'];
         $borrower->prof_telephone = $request['prof_telephone'];
         $borrower->prof_dept = $request['prof_dept'];
+        $borrower->prof_email = $request['prof_email'];
 
-        $borrower->borrower_name = $request['borrower_name'];
+        $borrower->borrower_category  = $request['borrower_category'];
+        $borrower->borrower_fname = $request['borrower_fname'];
+        $borrower->borrower_lname = $request['borrower_lname'];
         $borrower->borrower_email = $request['borrower_email'];
-        $borrower->borrower_address = $request['borrower_address'] ?? null;
+        $borrower->borrower_address1 = $request['borrower_address1'];
+        $borrower->borrower_address2 = $request['borrower_address2'] ?? null;
+        $borrower->borrower_city = $request['borrower_city'];
+        $borrower->borrower_postal_code = $request['borrower_postal_code'];
+        $borrower->borrower_province_state = $request['borrower_province_state'];
         $borrower->borrower_auth_to = $request['borrower_auth_to'];
         $borrower->borrower_auth_from = $request['borrower_auth_from'] ?? null;
         $borrower->borrower_status = $request['borrower_status'];

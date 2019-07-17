@@ -72,25 +72,25 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="address1" class="control-label">Street address 1<span class="required">*</span></label>
-                     {!! Form::input('text', 'address1', $borrower->address1 ?? null, ['class'=> 'form-control']) !!}
+                    <label for="borrower_address1" class="control-label">Street address 1<span class="required">*</span></label>
+                     {!! Form::input('text', 'borrower_address1', $borrower->borrower_address1 ?? null, ['class'=> 'form-control']) !!}
                 </div>
                <div class="form-group">
-                    <label for="address2" class="control-label">Street address 2</label>
-                     {!! Form::input('text', 'address2', $borrower->address2 ?? null, ['class'=> 'form-control']) !!}
+                    <label for="borrower_address2" class="control-label">Street address 2</label>
+                     {!! Form::input('text', 'borrower_address2', $borrower->borrower_address2 ?? null, ['class'=> 'form-control']) !!}
                </div>
 
                 <div class="form-group">
-                    <label for="city" class="control-label">City<span class="required">*</span></label>
-                     {!! Form::input('text', 'city', $borrower->city ?? null, ['class'=> 'form-control']) !!}
+                    <label for="borrower_city" class="control-label">City<span class="required">*</span></label>
+                     {!! Form::input('text', 'borrower_city', $borrower->borrower_city ?? null, ['class'=> 'form-control']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="province" class="control-label">Province/State<span class="required">*</span></label>
-                     {!! Form::input('text', 'province_state', $borrower->province_state ?? null, ['class'=> 'form-control']) !!}
+                    <label for="borrower_province" class="control-label">Province/State<span class="required">*</span></label>
+                     {!! Form::input('text', 'borrower_province_state', $borrower->borrower_province_state ?? null, ['class'=> 'form-control']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="postal_code" class="control-label">Postal code<span class="required">*</span></label>
-                     {!! Form::input('text', 'postal_code', $borrower->postal_code ?? null, ['class'=> 'form-control', 'placeholder' => 'XXX XXX']) !!}
+                    <label for="borrower_postal_code" class="control-label">Postal code<span class="required">*</span></label>
+                     {!! Form::input('text', 'borrower_postal_code', $borrower->borrower_postal_code ?? null, ['class'=> 'form-control', 'placeholder' => 'XXX XXX']) !!}
                 </div>
                 <br />
                 <hr />
