@@ -10,6 +10,7 @@ Dear {{ $borrower->borrower_fname}} {{ $borrower->borrower_lname}},
 <p class="text-large"> <strong>{{$borrower->barcode}}</strong></p>
 
 @include('emails.account_details')
+
 <hr />
 
 <p>

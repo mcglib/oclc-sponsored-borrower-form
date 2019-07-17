@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
- <title>Borrower information </title>
+ <title>Sponsored Borrower  </title>
 </head>
 <body>
-Dear {{ $borrower->fname}} {{ $borrower->lname}},
+Hi,
 
 <p>This is a confirmation that a library account has been created for you.Please bring this temporary barcode to a Library Services desk: </p>
 <p class="text-large"> <strong>{{$borrower->barcode}}</strong></p>

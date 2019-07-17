@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
- <title>Borrower information </title>
+ <title>Sponsored borrower</title>
 </head>
 <body>
 Hi,
