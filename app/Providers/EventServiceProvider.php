@@ -7,7 +7,9 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Aacotroneo\Saml2\Events\Saml2LoginEvent;
+use Aacotroneo\Saml2\Events\Saml2LogoutEvent;
 use App\Listeners\StoreSamlLoginInSession;
+use App\Listeners\RemoveSamlUserFromSession;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
         Saml2LoginEvent::class => [
             StoreSamlLoginInSession::class
         ],
+        Saml2LogoutEvent::class => [
+            RemoveSamlUserFromSession::class
+        ]
     ];
 
     /**
