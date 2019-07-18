@@ -41,7 +41,7 @@ class Borrower extends FormRequest
         'borrower_postal_code' => 'required',
 	    'borrower_startdate' => 'required',
 	    'borrower_enddate' => 'required',
-	    'borrower_status' => 'required',
+	    'borrower_renewal' => 'nullable',
 	    'borrower_telephone' => 'nullable',
 	    'borrower_terms' => 'required',
         ];

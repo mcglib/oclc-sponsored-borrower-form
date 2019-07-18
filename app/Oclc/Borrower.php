@@ -26,10 +26,10 @@ class Borrower {
     public $borrower_city;
     public $borrower_address1;
     public $borrower_address2;
-    public $borrower_enddate, $borrower_startdate;
+    public $borrower_enddate, $borrower_startdate, $borrower_renewal;
     public $borrower_postal_code, $borrower_province_state;
     public $branch_library_name, $branch_library_email, $branch_library_value;
-    public $prof_name, $prof_dept, $prof_email;
+    public $prof_name, $prof_dept, $prof_email, $prof_telephone;
     public $expiry_date;
     public $barcode;
 
@@ -58,13 +58,15 @@ class Borrower {
 	   $this->borrower_cat = $request['borrower_cat'];
 	   $this->borrower_telephone = $request['borrower_telephone'] ?? null;
 
-       $this->prof_name = $request['prof_name'] ?? null;
+     $this->prof_name = $request['prof_name'] ?? null;
 	   $this->prof_dept = $request['prof_dept'] ?? null;
 	   $this->prof_email = $request['prof_email'] ?? null;
+     $this->prof_telephone = $request['prof_telephone'] ?? null;
+     
 
-       $this->branch_library_name = $request['branch_library_name'] ?? null;
-       $this->branch_library_value = $request['branch_library_name'] ?? null;
-       $this->branch_library_email = $request['branch_library_name'] ?? null;
+     $this->branch_library_name = $request['branch_library_name'] ?? null;
+     $this->branch_library_value = $request['branch_library_value'] ?? null;
+     $this->branch_library_email = $request['branch_library_email'] ?? null;
 
        $this->borrower_city = $request['borrower_city'] ?? null;
        $this->borrower_terms = $request['borrower_terms'] ?? false;
@@ -333,7 +335,7 @@ class Borrower {
 	if (isset($this->prof_name)) {
 	   $data = array(
 		       "businessContext" => $this->institutionId,
-		       "note" => $this->prof_name.", ".$this->prof_dept.", ".$this->prof_email
+		       "note" => $this->prof_name.", ".$this->prof_dept.", ".$this->prof_email.", ".$this->prof_telephone
 	   );
 	   return array($data);
 

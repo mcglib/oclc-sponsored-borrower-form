@@ -14,7 +14,7 @@
 	<div class="navbar navbar-default navbar-static-top">
 	  <div class="container">
 	    <div class="navbar-header">
-            <a class="navbar-brand" href="https://www.mcgill.ca/library"><img src="/borrowing-card/public/img/mcgill_logo.jpg" /></a>
+            <a class="navbar-brand" href="https://www.mcgill.ca/library"><img src="/public/img/mcgill_logo.jpg" /></a>
 	    </div>
 	    <div class="xcollapse navbar-collapse">
 	      <ul class="nav navbar-nav">

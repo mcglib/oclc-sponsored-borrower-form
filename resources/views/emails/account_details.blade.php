@@ -1,6 +1,10 @@
 
-<hr />
+
 <table class="table">
+	<tr>
+				<td>Branch Library:</td>
+				<td><strong>{{$borrower->branch_library_name}}</strong></td>
+				</tr>
     <tr>
 	<td>First name:</td>
 	<td><strong>{{$borrower->borrower_fname}}</strong></td>
@@ -18,11 +22,22 @@
 	<td ><strong>{{$borrower->barcode}}</strong></td>
     </tr>
     <tr>
-	<td>Requested borrowing category:</td>
+	<td>Sponsored Borrower category:</td>
 	<td><strong>{{$borrower->getBorrowerCategoryLabel($borrower->borrower_cat)}}</strong>
 	</td>
-    </tr>
+	</tr>
+	<tr>
+			<td>Authorized from:</td>
+			<td><strong>{{$borrower->borrower_startdate}}</strong>
+			</td>
+			</tr>
     <tr>
+			<tr>
+					<td>Authorized from:</td>
+					<td><strong>{{$borrower->borrower_startdate}}</strong>
+					</td>
+					</tr>
+			<tr>
 	<td>Address:</td>
 	<td><strong>
 		<address>

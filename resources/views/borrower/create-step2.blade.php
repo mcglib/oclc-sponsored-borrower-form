@@ -34,9 +34,17 @@
                 <td>Email:</td>
                 <td><strong>{{$borrower->prof_email}}</strong></td>
             </tr>
+            <tr>
+                    <td>Telephone no:</td>
+                    <td><strong>{{$borrower->prof_telephone}}</strong></td>
+                </tr>
         </table>
         <h4> Borrower's information </h4>
         <table class="table">
+            <tr>
+                    <td>This submission is for the renewal :</td>
+                    <td><strong>{{$borrower->borrower_renewal}}</strong></td>
+            </tr>
             <tr>
                 <td>First Name:</td>
                 <td><strong>{{$borrower->borrower_fname}}</strong></td>
