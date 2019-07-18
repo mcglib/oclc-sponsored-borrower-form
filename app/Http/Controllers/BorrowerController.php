@@ -6,6 +6,8 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Routing\Controller as BaseController;
 use App\Forms\BorrowerForm;
 use App\Mail\AccountCreated;
+use App\Mail\ProffesorEmail;
+use App\Mail\LibraryEmail;
 use App\Mail\OclcError;
 use App\Mail\GeneralError;
 use App\Extlog;
@@ -97,26 +99,29 @@ class BorrowerController extends BaseController {
 
     public function send_emails($borrower) {
        $error_email = ENV('MAIL_ERROR_EMAIL_ADDRESS') ?? 'mutugi.gathuri@mcgill.ca';
-        // Email the  borrower
 
        // Email the prof
         // Verify the email before sending or creating a record.
-        if (!$this->verify_real_email($error_email, $borrower->prof_email, $borrower)) {
+        try{
+          $result = Mail::to($borrower->prof_email)->send(new ProffesorEmail($borrower));
+        }catch(\Swift_TransportException $e){
+          $response = $e->getMessage() ;
+          Mail::to($error_email)->send(new GeneralError($borrower, $response));
+            $request->session()->flash('message', $error_msg);
+            return redirect('error')
+                   ->with('error', $error_msg);
+        } 
 
-            $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
-            Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
-            $request->session()->flash('message', $error_msg);
-            return redirect('error')
-                   ->with('error', $error_msg);
-        }
         // Email the dept
-       if (!$this->verify_real_email($error_email, $borrower->branch_library_email, $borrower)) {
-            $error_msg = "The email address $borrower->branch_library_email does not exist. Please check your spelling.";
-            Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
+        try{
+          $result = Mail::to($borrower->branch_library_email)->send(new LibraryEmail($borrower));
+        }catch(\Swift_TransportException $e){
+          $response = $e->getMessage() ;
+          Mail::to($error_email)->send(new GeneralError($borrower, $response));
             $request->session()->flash('message', $error_msg);
             return redirect('error')
                    ->with('error', $error_msg);
-       }
+        } 
     }
 
 

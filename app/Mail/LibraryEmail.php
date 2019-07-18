@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Carbon\Carbon;
 
-class LibraryEmail extends Mailable
+class ProffesorEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -34,10 +34,14 @@ class LibraryEmail extends Mailable
      */
     public function build()
     {
-      $subject = $_ENV['MAIL_ERROR_SUBJECT'] ?? 'Sponsored borrowers: Error creating patron record';
-      return $this->view('emails.library')
-              ->text('emails.library_plain')
+      if($this->borrower->borrower_renewal) {
+        $subject = $_ENV['MAIL_SUBJECT_RENEWAL'] ?? 'McGill Library Sponsored Borrower form';
+      }else {
+        $subject = $_ENV['MAIL_SUBJECT'] ?? 'McGill Library Sponsored Borrower form';
+      }
+
+      return $this->view('emails.branch_library')
               ->subject($subject)
-              ->with("borrower", $this->borrower);
+              ->text('emails.branch_library');
     }
 }
