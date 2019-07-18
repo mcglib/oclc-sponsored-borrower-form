@@ -20,7 +20,7 @@
 	      <ul class="nav navbar-nav">
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                <li><a href="/logout" class="btn btn-danger" role="button">Log out</a></li>
+                <li><a href="{{ route('logout') }}" class="btn btn-danger" role="button">Log out</a></li>
               </ul>
 	    </div><!--/.nav-collapse -->
 	  </div>
