@@ -136,7 +136,7 @@ class Borrower {
 
     }
 
-    private function setExpiryDate($end_date) {
+    private function setExpiryDate() {
        $futureDate = date('Y-m-d', strtotime('+1 year'));
        return $futureDate."T00:00:00Z";
 
@@ -160,7 +160,7 @@ class Borrower {
             ];
 	    // Save the post into a db log
 	    $log = new Extlog;
-	    $log->email = $this->email;
+	    $log->email = $this->borrower_email;
 	    $log->post = json_encode($body);
 	    $log->form_data = json_encode($this->data);
 	    try {
@@ -333,7 +333,7 @@ class Borrower {
 	if (isset($this->prof_name)) {
 	   $data = array(
 		       "businessContext" => $this->institutionId,
-		       "note" => $this->prof_name
+		       "note" => $this->prof_name.", ".$this->prof_dept.", ".$this->prof_email
 	   );
 	   return array($data);
 
@@ -413,7 +413,7 @@ class Borrower {
 	  'addresses' => $this->getAddresses(),
 	  'emails' => array (
 		0 =>  array (
-			'value' => $this->email,
+			'value' => $this->borrower_email,
 			//'type' => $this->defaultType,
 			'type' => "",
 			'primary' => true,

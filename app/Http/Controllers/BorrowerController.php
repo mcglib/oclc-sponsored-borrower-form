@@ -96,7 +96,7 @@ class BorrowerController extends BaseController {
     }
 
     public function send_emails($borrower) {
-       $error_email = 'mutugi.gathuri@mcgill.ca';
+       $error_email = ENV('MAIL_ERROR_EMAIL_ADDRESS') ?? 'mutugi.gathuri@mcgill.ca';
         // Email the  borrower
 
        // Email the prof
@@ -126,6 +126,7 @@ class BorrowerController extends BaseController {
        $borrower = $request->session()->get('borrower');
 
        // Verify the email before sending or creating a record.
+       $error_email = ENV('MAIL_ERROR_EMAIL_ADDRESS') ?? 'mutugi.gathuri@mcgill.ca';
        if (!$this->verify_real_email($error_email, $borrower->borrower_email, $borrower)) {
 
             $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
@@ -137,8 +138,9 @@ class BorrowerController extends BaseController {
 
        if ($borrower->create()){
 
+           dd($borrower);
            // Send the prof and the dept the emails
-            send_emails($borrower);
+            $this->send_emails($borrower);
 
             return redirect()->route('borrower.created')
                    ->with('success',
@@ -241,7 +243,6 @@ class BorrowerController extends BaseController {
             $result = Mail::to($test_email)->send(new AccountCreated($borrower));
         }catch(\Swift_TransportException $e){
             $response = $e->getMessage() ;
-            dd($e->getMessage());
             $valid = false;
         }
         // Check if email is valid and exist

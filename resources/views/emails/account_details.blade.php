@@ -35,8 +35,4 @@
 	    </strong>
 	</td>
     </tr>
-    <tr>
-	<td>Telephone:</td>
-	<td><strong>{{$borrower->telephone_no}}</strong></td>
-    </tr>
 </table>

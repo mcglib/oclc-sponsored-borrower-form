@@ -11,8 +11,6 @@ Dear {{ $borrower->borrower_fname}} {{ $borrower->borrower_lname}},
 
 @include('emails.account_details')
 
-<hr />
-
 <p>
 Thank you,
 McGill Library
