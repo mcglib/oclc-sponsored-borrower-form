@@ -1,5 +1,4 @@
 
-<h3>Account details</h3>
 <hr />
 <table class="table">
     <tr>
@@ -23,7 +22,6 @@
 	<td><strong>{{$borrower->getBorrowerCategoryLabel($borrower->borrower_cat)}}</strong>
 	</td>
     </tr>
-    @if (isset($borrower->postal_code))
     <tr>
 	<td>Address:</td>
 	<td><strong>
@@ -41,5 +39,4 @@
 	<td>Telephone:</td>
 	<td><strong>{{$borrower->telephone_no}}</strong></td>
     </tr>
-    @endif
 </table>

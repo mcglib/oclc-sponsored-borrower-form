@@ -101,9 +101,12 @@ class BorrowerController extends BaseController {
     {
 
        $borrower = $request->session()->get('borrower');
-       $error_email = $_ENV['MAIL_ERROR_EMAIL_ADDRESS'] ?? 'dev.library@mcgill.ca';
+       $error_email = 'mutugi.gathuri@mcgill.ca';
 
        // Verify the email before sending or creating a record.
+        $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
+       Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
+       dd($borrower);
        if (!$this->verify_real_email($error_email, $borrower->borrower_email, $borrower)) {
 
             $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
@@ -205,7 +208,6 @@ class BorrowerController extends BaseController {
 
     public function verify_real_email($error_email, $test_email, $borrower) {
 
-        
         $valid = true;
             // Initialize library class
         $mail = new VerifyEmailService();
