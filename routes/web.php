@@ -17,7 +17,7 @@ Route::get('/', function () {
 	    return view('borrower');
 });
 
-Route::get('/','BorrowerController@createStep1');
+Route::get('/','BorrowerController@createStep1')->middleware('auth.saml');
 
 Route::get('create-step1', [
 	    'uses' => 'BorrowerController@createStep1',

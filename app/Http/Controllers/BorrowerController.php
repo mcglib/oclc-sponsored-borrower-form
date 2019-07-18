@@ -39,7 +39,7 @@ class BorrowerController extends BaseController {
 
         // clear session data for borrower
         $request->session()->forget('borrower');
-
+	$borrower = $this->get_prof_details($request->session()->get('saml2Auth'), $borrower);
         return view('borrower.create-step1')
             ->with(compact('borrower', $borrower))
             ->with(compact('branch_libraries', $branch_libraries))
@@ -48,6 +48,22 @@ class BorrowerController extends BaseController {
 
     }
 
+    public function get_prof_details($saml_attributes, $borrower) {
+	$attrs = $saml_attributes->getSaml2User()->getAttributes();
+
+	if (is_null($borrower)) {
+        	$borrower = new \stdClass();
+	}
+        $borrower->prof_name = (isset($borrower->prof_name)) ? $borrower->prof_name :
+				$attrs['http://schemas.microsoft.com/identity/claims/displayname'][0];
+        $borrower->prof_email = (isset($borrower->prof_email)) ? $borrower->prof_email :
+				$attrs['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'][0];
+        $borrower->prof_dept = (isset($borrower->prof_dept)) ? $borrower->prof_dept :
+				$attrs['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'][0];
+        $borrower->prof_telephone = (isset($borrower->prof_telephone)) ? $borrower->prof_telephone :
+				$attrs['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'][0];
+	return $borrower;
+    }
      /**
      * Post Request to store step1 info in session
      *
@@ -56,7 +72,7 @@ class BorrowerController extends BaseController {
      */
     public function postCreateStep1(Borrower $request)
     {
-	    $validatedData = $request->validated();
+       $validatedData = $request->validated();
 
         $borrower = $this->build_borrower($validatedData);
         $request->session()->put('borrower', $borrower);
