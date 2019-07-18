@@ -19,11 +19,11 @@
 		   <form action="create-step1" method="post">
 		    {{ csrf_field() }}
 			<fieldset class="form-group" id="library_information">
-				<legend>Sponsored Borrower</legend>
+				<legend>Sponsored Borrower Category</legend>
                 <div class="form-group">
-                   <label for="borrower_status" class="control-label"></label><br />
-                   {!! Form::checkbox('borrower_status', $borrower->borrower_status ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
-                   This submission is for the renewal of an existing Sponsored Borrower.<span class="required">*</span>
+                   <label for="borrower_renewal" class="control-label"></label><br />
+                   {!! Form::checkbox('borrower_renewal','yes', $borrower->borrower_renewal ?? false,  ['class'=> 'form-control']) !!}
+                   This submission is for the renewal of an existing Sponsored Borrower.
                 </div>
                 <div class="form-group">
                     <label for="borrower_category" class="control-label required">Sponsored Borrower<span class="required">*</span></label>
@@ -107,7 +107,7 @@
             <hr />
            <div class="form-group">
                <label for="borrower_terms" class="control-label">Terms<span class="required">*</span></label><br />
-               {!! Form::checkbox('borrower_terms', $borrower->borrower_terms ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
+               {!! Form::checkbox('borrower_terms', 'yes', $borrower->borrower_terms ?? false, ['class'=> 'form-control', 'required' => 'required']) !!}
                I accept full responsibility for fines, replacement costs and any other charges incurred by the aforementioned for library privileges authorized under my name.
            </div>
 

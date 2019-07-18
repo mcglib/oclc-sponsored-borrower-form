@@ -19,16 +19,6 @@ Route::get('/', function () {
 
 Route::get('/','BorrowerController@createStep1')->middleware('auth.saml');
 
-Route::get('success', [
-	    'uses' => 'BorrowerController@created',
-            'as' => 'borrower.created'
-])->middleware('auth.saml');
-
-Route::get('error', [
-	    'uses' => 'BorrowerController@errorPage',
-            'as' => 'borrower.error'
-])->middleware('auth.saml');
-
 Route::get('create-step1', [
 	    'uses' => 'BorrowerController@createStep1',
             'as' => 'borrower.create_step_1'
@@ -52,6 +42,17 @@ Route::post('store', [
 	    'uses' => 'BorrowerController@store',
            'as' => 'borrower.store'
 ])->middleware('auth.saml');
+
+Route::get('success', [
+	    'uses' => 'BorrowerController@created',
+            'as' => 'borrower.created'
+]);
+
+Route::get('error', [
+	    'uses' => 'BorrowerController@errorPage',
+            'as' => 'borrower.error'
+]);
+
 
 Route::get('/login', function () {
     return Saml2::login(url('/'));

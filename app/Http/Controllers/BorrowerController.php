@@ -6,6 +6,8 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Routing\Controller as BaseController;
 use App\Forms\BorrowerForm;
 use App\Mail\AccountCreated;
+use App\Mail\ProffesorEmail;
+use App\Mail\LibraryEmail;
 use App\Mail\OclcError;
 use App\Mail\GeneralError;
 use App\Extlog;
@@ -35,9 +37,9 @@ class BorrowerController extends BaseController {
         $branch_libraries = $this->get_branch_libraries();
         $borrowing_categories = $this->get_borrower_categories();
 
-        // clear session data
+        // clear session data for borrower
         $request->session()->forget('borrower');
-
+	$borrower = $this->get_prof_details($request->session()->get('saml2Auth'), $borrower);
         return view('borrower.create-step1')
             ->with(compact('borrower', $borrower))
             ->with(compact('branch_libraries', $branch_libraries))
@@ -46,6 +48,22 @@ class BorrowerController extends BaseController {
 
     }
 
+    public function get_prof_details($saml_attributes, $borrower) {
+	$attrs = $saml_attributes->getSaml2User()->getAttributes();
+
+	if (is_null($borrower)) {
+        	$borrower = new \stdClass();
+	}
+        $borrower->prof_name = (isset($borrower->prof_name)) ? $borrower->prof_name :
+				$attrs['http://schemas.microsoft.com/identity/claims/displayname'][0];
+        $borrower->prof_email = (isset($borrower->prof_email)) ? $borrower->prof_email :
+				$attrs['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'][0];
+        $borrower->prof_dept = (isset($borrower->prof_dept)) ? $borrower->prof_dept :
+				$attrs['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/department'][0];
+        $borrower->prof_telephone = (isset($borrower->prof_telephone)) ? $borrower->prof_telephone :
+				$attrs['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/telephonenumber'][0];
+	return $borrower;
+    }
      /**
      * Post Request to store step1 info in session
      *
@@ -54,7 +72,7 @@ class BorrowerController extends BaseController {
      */
     public function postCreateStep1(Borrower $request)
     {
-	    $validatedData = $request->validated();
+       $validatedData = $request->validated();
 
         $borrower = $this->build_borrower($validatedData);
         $request->session()->put('borrower', $borrower);
@@ -69,10 +87,11 @@ class BorrowerController extends BaseController {
     public function createStep2(Request $request)
     {
         $borrower = $request->session()->get('borrower');
-        dd($borrower);
+        
         return view('borrower.create-step2')
           ->with(compact('borrower', $borrower));
     }
+
     public function created(Request $request)
     {
         $borrower = $request->session()->get('borrower');
@@ -83,10 +102,11 @@ class BorrowerController extends BaseController {
                 return redirect('/create-step1');
         }
         // clear session data
-            $request->session()->flush();
-            return view('borrower.success')
-              ->with(compact('borrower', $borrower));
+        $request->session()->flush();
+        return view('borrower.success')
+          ->with(compact('borrower', $borrower));
     }
+
     public function errorPage(Request $request)
     {
         $borrower = $request->session()->get('borrower');
@@ -94,16 +114,42 @@ class BorrowerController extends BaseController {
           ->with(compact('borrower', $borrower));
     }
 
+    public function send_emails($borrower) {
+       $error_email = ENV('MAIL_ERROR_EMAIL_ADDRESS') ?? 'mutugi.gathuri@mcgill.ca';
+
+       // Email the prof
+        // Verify the email before sending or creating a record.
+        try{
+          $result = Mail::to($borrower->prof_email)->send(new ProffesorEmail($borrower));
+        }catch(\Swift_TransportException $e){
+          $response = $e->getMessage() ;
+          Mail::to($error_email)->send(new GeneralError($borrower, $response));
+            $request->session()->flash('message', $error_msg);
+            return redirect('error')
+                   ->with('error', $error_msg);
+        } 
+
+        // Email the dept
+        try{
+          $result = Mail::to($borrower->branch_library_email)->send(new LibraryEmail($borrower));
+        }catch(\Swift_TransportException $e){
+          $response = $e->getMessage() ;
+          Mail::to($error_email)->send(new GeneralError($borrower, $response));
+            $request->session()->flash('message', $error_msg);
+            return redirect('error')
+                   ->with('error', $error_msg);
+        } 
+    }
 
 
     public function store(Request $request)
     {
 
        $borrower = $request->session()->get('borrower');
-       $error_email = $_ENV['MAIL_ERROR_EMAIL_ADDRESS'] ?? 'dev.library@mcgill.ca';
 
        // Verify the email before sending or creating a record.
-       if (!$this->verify_real_email($error_email, $borrower->borrower_email)) {
+       $error_email = ENV('MAIL_ERROR_EMAIL_ADDRESS') ?? 'mutugi.gathuri@mcgill.ca';
+       if (!$this->verify_real_email($error_email, $borrower->borrower_email, $borrower)) {
 
             $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
             Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
@@ -111,19 +157,12 @@ class BorrowerController extends BaseController {
             return redirect('error')
                    ->with('error', $error_msg);
        }
-       // Verify the profs email before sending or creating a record.
-       // Verify the email before sending or creating a record.
-       if (!$this->verify_real_email($error_email, $borrower->prof_email)) {
-            $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
-            Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
-            $request->session()->flash('message', $error_msg);
-            return redirect('error')
-                   ->with('error', $error_msg);
-       }
-
-
 
        if ($borrower->create()){
+
+           
+           // Send the prof and the dept the emails
+            $this->send_emails($borrower);
 
             return redirect()->route('borrower.created')
                    ->with('success',
@@ -138,7 +177,7 @@ class BorrowerController extends BaseController {
          // Redirect to the form.
          return redirect('error')
            ->with('oclcerror',
-             'An Error has occured creating an OCLC record for you.');
+             'An Error has occured processing the request for the sponsored borrower.');
        }
 
        // clear session data
@@ -148,6 +187,7 @@ class BorrowerController extends BaseController {
     private function build_borrower($request) {
 
         $borrower = new \stdClass();
+
         $borrower->data = $request;
         $borrower->branch_library_value  = $request['branch_library'];
         $borrower->branch_library_name = $this->get_branch_name($request['branch_library']);
@@ -169,12 +209,12 @@ class BorrowerController extends BaseController {
         $borrower->borrower_province_state = $request['borrower_province_state'];
         $borrower->borrower_startdate = $request['borrower_startdate'];
         $borrower->borrower_enddate = $request['borrower_enddate'] ?? null;
-        $borrower->borrower_status = $request['borrower_status'];
+        $borrower->borrower_renewal = $request['borrower_renewal'];
         $borrower->borrower_telephone = $request['borrower_telephone'] ?? null;
         $borrower->borrower_terms = $request['borrower_terms'];
 
         // Lets build the OCLC object
-        return new \App\Oclc\Borrower($borrower);
+        return new \App\Oclc\Borrower((array)$borrower);
     }
 
     public function get_branch_libraries() {
@@ -204,7 +244,7 @@ class BorrowerController extends BaseController {
      return $data['branches'][$key]['email'];
     }
 
-    public function verify_real_email($error_email, $borrower) {
+    public function verify_real_email($error_email, $test_email, $borrower) {
 
         $valid = true;
             // Initialize library class
@@ -222,14 +262,12 @@ class BorrowerController extends BaseController {
 
         // Email to check
         // check the result of the mail before creating the account
-            try{
-                $result = Mail::to($borrower->email)->send(new AccountCreated($borrower));
+        try{
+            $result = Mail::to($test_email)->send(new AccountCreated($borrower));
         }catch(\Swift_TransportException $e){
             $response = $e->getMessage() ;
             $valid = false;
         }
-
-
         // Check if email is valid and exist
         return $valid;
 
