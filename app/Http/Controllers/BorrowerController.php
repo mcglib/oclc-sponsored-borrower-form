@@ -95,18 +95,37 @@ class BorrowerController extends BaseController {
           ->with(compact('borrower', $borrower));
     }
 
+    public function send_emails($borrower) {
+       $error_email = 'mutugi.gathuri@mcgill.ca';
+        // Email the  borrower
+
+       // Email the prof
+        // Verify the email before sending or creating a record.
+        if (!$this->verify_real_email($error_email, $borrower->prof_email, $borrower)) {
+
+            $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
+            Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
+            $request->session()->flash('message', $error_msg);
+            return redirect('error')
+                   ->with('error', $error_msg);
+        }
+        // Email the dept
+       if (!$this->verify_real_email($error_email, $borrower->branch_library_email, $borrower)) {
+            $error_msg = "The email address $borrower->branch_library_email does not exist. Please check your spelling.";
+            Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
+            $request->session()->flash('message', $error_msg);
+            return redirect('error')
+                   ->with('error', $error_msg);
+       }
+    }
 
 
     public function store(Request $request)
     {
 
        $borrower = $request->session()->get('borrower');
-       $error_email = 'mutugi.gathuri@mcgill.ca';
 
        // Verify the email before sending or creating a record.
-        $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
-       Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
-       dd($borrower);
        if (!$this->verify_real_email($error_email, $borrower->borrower_email, $borrower)) {
 
             $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
@@ -115,17 +134,11 @@ class BorrowerController extends BaseController {
             return redirect('error')
                    ->with('error', $error_msg);
        }
-       // Verify the profs email before sending or creating a record.
-       // Verify the email before sending or creating a record.
-       if (!$this->verify_real_email($error_email, $borrower->prof_email, $borrower)) {
-            $error_msg = "The email address $borrower->prof_email does not exist. Please check your spelling.";
-            Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
-            $request->session()->flash('message', $error_msg);
-            return redirect('error')
-                   ->with('error', $error_msg);
-       }
 
        if ($borrower->create()){
+
+           // Send the prof and the dept the emails
+            send_emails($borrower);
 
             return redirect()->route('borrower.created')
                    ->with('success',
@@ -140,7 +153,7 @@ class BorrowerController extends BaseController {
          // Redirect to the form.
          return redirect('error')
            ->with('oclcerror',
-             'An Error has occured creating an OCLC record for you.');
+             'An Error has occured processing the request for the sponsored borrower.');
        }
 
        // clear session data
