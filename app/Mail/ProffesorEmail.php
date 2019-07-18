@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Carbon\Carbon;
 
-class LibraryEmail extends Mailable
+class ProffesorEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -40,8 +40,8 @@ class LibraryEmail extends Mailable
         $subject = $_ENV['MAIL_SUBJECT'] ?? 'McGill Library Sponsored Borrower form';
       }
 
-      return $this->view('emails.branch_library')
+      return $this->view('emails.proffesor')
               ->subject($subject)
-              ->text('emails.branch_library');
+              ->text('emails.proffesor_plain');
     }
 }

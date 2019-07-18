@@ -22,7 +22,7 @@
 				<legend>Sponsored Borrower Category</legend>
                 <div class="form-group">
                    <label for="borrower_renewal" class="control-label"></label><br />
-                   {!! Form::checkbox('borrower_renewal',$borrower->borrower_renewal ?? null, false, ['class'=> 'form-control']) !!}
+                   {!! Form::checkbox('borrower_renewal','yes', $borrower->borrower_renewal ?? false,  ['class'=> 'form-control']) !!}
                    This submission is for the renewal of an existing Sponsored Borrower.
                 </div>
                 <div class="form-group">
@@ -107,7 +107,7 @@
             <hr />
            <div class="form-group">
                <label for="borrower_terms" class="control-label">Terms<span class="required">*</span></label><br />
-               {!! Form::checkbox('borrower_terms', $borrower->borrower_terms ?? null, false, ['class'=> 'form-control', 'required' => 'required']) !!}
+               {!! Form::checkbox('borrower_terms', 'yes', $borrower->borrower_terms ?? false, ['class'=> 'form-control', 'required' => 'required']) !!}
                I accept full responsibility for fines, replacement costs and any other charges incurred by the aforementioned for library privileges authorized under my name.
            </div>
 
