@@ -59,9 +59,9 @@ class BorrowerController extends BaseController {
         $borrower->prof_email = (isset($borrower->prof_email)) ? $borrower->prof_email :
 				$attrs['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'][0];
         $borrower->prof_dept = (isset($borrower->prof_dept)) ? $borrower->prof_dept :
-				$attrs['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'][0];
+				$attrs['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/department'][0];
         $borrower->prof_telephone = (isset($borrower->prof_telephone)) ? $borrower->prof_telephone :
-				$attrs['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'][0];
+				$attrs['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/telephonenumber'][0];
 	return $borrower;
     }
      /**
