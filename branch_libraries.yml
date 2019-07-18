@@ -1,4 +1,7 @@
 branches:
+  - key: value10
+    label: Test branch
+    email: mutugi.gathuri@mcgill.ca
   - key: value1
     label: Education Library and Curriculum Resources Centre
     email: educcirc.library@mcgill.ca

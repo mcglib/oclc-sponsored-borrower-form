@@ -2,7 +2,7 @@
 
 @section('content')
     <hr>
-    <h3 class="mb-0">McGill Library Borrowing Card Application Form - Error</h3>
+    <h3 class="mb-0">McGill Library Sponsored Borrower Form - Error</h3>
     <div class="container py-5">  
 	    @if (session()->has('flash.message'))
 		   <div class="alert alert-{{ session('flash.class') }}">
