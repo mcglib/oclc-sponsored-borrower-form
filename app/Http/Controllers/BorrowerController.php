@@ -71,6 +71,7 @@ class BorrowerController extends BaseController {
     public function createStep2(Request $request)
     {
         $borrower = $request->session()->get('borrower');
+        
         return view('borrower.create-step2')
           ->with(compact('borrower', $borrower));
     }
@@ -170,6 +171,7 @@ class BorrowerController extends BaseController {
     private function build_borrower($request) {
 
         $borrower = new \stdClass();
+
         $borrower->data = $request;
         $borrower->branch_library_value  = $request['branch_library'];
         $borrower->branch_library_name = $this->get_branch_name($request['branch_library']);
@@ -191,7 +193,7 @@ class BorrowerController extends BaseController {
         $borrower->borrower_province_state = $request['borrower_province_state'];
         $borrower->borrower_startdate = $request['borrower_startdate'];
         $borrower->borrower_enddate = $request['borrower_enddate'] ?? null;
-        $borrower->borrower_renewal = $request['borrower_renewal'] ?? null;
+        $borrower->borrower_renewal = $request['borrower_renewal'];
         $borrower->borrower_telephone = $request['borrower_telephone'] ?? null;
         $borrower->borrower_terms = $request['borrower_terms'];
 

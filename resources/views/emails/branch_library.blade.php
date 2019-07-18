@@ -5,14 +5,15 @@
 </head>
 <body>
 Hi,
-
+@if ($borrower->borrower_renewal == 'yes')
+<p>The following sponsored borrower form has been submitted for renewal: </p>
+@else
 <p>The following sponsored borrower form has been submitted: </p>
-<p class="text-large"> <strong>{{$borrower->barcode}}</strong></p>
-<h3>Account details</h3>
+@endif
+
 ---------------------------------------------------------------------
 @include('emails.account_details')
 ---------------------------------------------------------------------
-<hr />
 
 </body>
 </html>

@@ -7,25 +7,26 @@
 
 		<p>Hello {{$borrower->prof_name}},</p>
 
-		Your Sponsored Borrower application form for a [“visiting scholar”/”visiting graduate student”/”sponsored research assistant”/“McGill PhD extension student”] was submitted [date/time].
+		<p>Your Sponsored Borrower application form for a {{$borrower->getBorrowerCategoryLabel($borrower->borrower_cat)}}
+		 was submitted {{ $timestamp }}.</p>
 		
-		Your Sponsored Borrower, [sponsored borrower’s name], has been notified by email.
+		<p>Your Sponsored Borrower, {{$borrower->borrower_fname}} {{$borrower->borrower_lname}}, has been notified by email.</p>
 		
-		Please note: In the event that you need to cancel this authorization before the specified “Authorized to” date, please contact us at [selected branch library email].
+		<p>Please note: In the event that you need to cancel this authorization before the specified “Authorized to” date, please contact us at 
+				{{$borrower->branch_library_email}}.</p>
 		
-		Submitted values are:
+		<p>Submitted values are:</p>
 		---------------------------------------------------------------------
-		
-		[appropriate submitted values – branch library, Sponsored Borrower category, authorized from, authorized to, etc., including terms: 
-		
-		“Terms: I accept full responsibility for fines, replacement costs and any
+		@include('emails.account_details')
+
+		<p>Terms: I accept full responsibility for fines, replacement costs and any
 		other charges incurred by the aforementioned for library privileges
-		authorized under my name.”
-		]
-		
+		authorized under my name.</p>
+				
 		---------------------------------------------------------------------
-		If you need further assistance, please feel free to ask us. [
-		https://www.mcgill.ca/library/contact/askus ].
+		
+		<p>If you need further assistance, please feel free to ask us. [
+		https://www.mcgill.ca/library/contact/askus ].</p>
 		
 
 
