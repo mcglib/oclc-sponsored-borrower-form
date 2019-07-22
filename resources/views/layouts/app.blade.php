@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>OCLC External Borrowers - @yield('title')</title>
+        <title>Sponsored Borrower  - @yield('title')</title>
     </head>
     <body>
         @section('sidebar')
