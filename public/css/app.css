@@ -7,3 +7,6 @@ span.required {
 .text-large {
   font-size: 150%;
 }
+.navbar-right {
+    text-align: right;
+}
