@@ -39,7 +39,7 @@ class Borrower {
     private $status;
     private $serviceUrl = '.share.worldcat.org/idaas/scim/v2';
     private $authorizationHeader;
-    private $barcode_counter_init =  670000;
+    private $barcode_counter_init =  90000;
     private $oclc_data;
     private $error_msg;
 
@@ -59,10 +59,10 @@ class Borrower {
 	   $this->borrower_telephone = $request['borrower_telephone'] ?? null;
 
      $this->prof_name = $request['prof_name'] ?? null;
-	   $this->prof_dept = $request['prof_dept'] ?? null;
-	   $this->prof_email = $request['prof_email'] ?? null;
+     $this->prof_dept = $request['prof_dept'] ?? null;
+	 $this->prof_email = $request['prof_email'] ?? null;
      $this->prof_telephone = $request['prof_telephone'] ?? null;
-     
+
 
      $this->branch_library_name = $request['branch_library_name'] ?? null;
      $this->branch_library_value = $request['branch_library_value'] ?? null;
@@ -71,28 +71,28 @@ class Borrower {
      $this->borrower_city = $request['borrower_city'] ?? null;
      $this->borrower_terms = $request['borrower_terms'] ?? false;
      $this->borrower_renewal = $request['borrower_renewal'] ?? false;
-	   $this->borrower_address1 = $request['borrower_address1'] ?? null;
-	   $this->borrower_address2 = $request['borrower_address2'] ?? null;
-	   $this->borrower_postal_code = $request['borrower_postal_code'] ?? null;
-	   $this->borrower_enddate = $request['borrower_enddate'] ?? null;
-	   $this->borrower_startdate = $request['borrower_startdate'] ?? null;
-	   $this->borrower_province_state = $request['borrower_province_state'] ?? "Quebec";
+	 $this->borrower_address1 = $request['borrower_address1'] ?? null;
+	 $this->borrower_address2 = $request['borrower_address2'] ?? null;
+	 $this->borrower_postal_code = $request['borrower_postal_code'] ?? null;
+	 $this->borrower_enddate = $request['borrower_enddate'] ?? null;
+	 $this->borrower_startdate = $request['borrower_startdate'] ?? null;
+	 $this->borrower_province_state = $request['borrower_province_state'] ?? "Quebec";
 
 
-       $oclc_config = config('oclc.connections.development');
+     $oclc_config = config('oclc.connections.development');
 
-	   $this->institutionId = $oclc_config['institution_id'];
+	 $this->institutionId = $oclc_config['institution_id'];
 
-	   $this->homeBranch = $oclc_config['home_branch'];
+	 $this->homeBranch = $oclc_config['home_branch'];
 
-	   // set the address
-       $this->addAddress($request);
+	 // set the address
+     $this->addAddress($request);
 
-	   // set the expiry date
-	   $this->expiry_date = $this->setExpiryDate($request['borrower_enddate']);
+	 // set the expiry date
+	 $this->expiry_date = $this->setExpiryDate($request['borrower_enddate']);
 
        // Generate the barcode
-	   $this->barcode = $this->generateBarCode();
+	 $this->barcode = $this->generateBarCode();
     }
     public function create() {
 
@@ -140,9 +140,10 @@ class Borrower {
     }
 
     private function setExpiryDate() {
-       $futureDate = date('Y-m-d', strtotime('+1 year'));
-       return $futureDate."T00:00:00Z";
 
+
+       $futureDate = date('Y-m-d', strtotime($this->expiry_date));
+       return $futureDate."T00:00:00Z";
 
     }
     private function setAuth($token) {
@@ -292,11 +293,13 @@ class Borrower {
 
     public function generateBarcode() {
 
+        // initialize the barcode counter
         if (Storage::disk('local')->exists('counter')){
            $curr_val = (int)Storage::disk('local')->get('counter');
            $curr_val++;
         }else {
-           $curr_val = $this->barcode_counter_init;
+           // initialize the barcode counter
+           $curr_val = (int) ENV('BARCODE_COUNTER_INIT') ?? $this->barcode_counter_init;
         }
         Storage::disk('local')->put('counter', $curr_val);
 
