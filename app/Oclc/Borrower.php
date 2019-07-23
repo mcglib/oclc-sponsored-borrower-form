@@ -69,8 +69,8 @@ class Borrower {
         $this->branch_library_email = $request['branch_library_email'] ?? null;
 
          $this->borrower_city = $request['borrower_city'] ?? null;
-         $this->borrower_terms = $request['borrower_terms'] ?? false;
-         $this->borrower_renewal = $request['borrower_renewal'] ?? false;
+         $this->borrower_terms = $request['borrower_terms'];
+         $this->borrower_renewal = $request['borrower_renewal'];
 	 $this->borrower_address1 = $request['borrower_address1'] ?? null;
 	 $this->borrower_address2 = $request['borrower_address2'] ?? null;
 	 $this->borrower_postal_code = $request['borrower_postal_code'] ?? null;
@@ -86,7 +86,7 @@ class Borrower {
 	 $this->homeBranch = $oclc_config['home_branch'];
 
 	 // set the address
-     $this->addAddress($request);
+        $this->addAddress($request);
 
 	 // set the expiry date
 	 $this->expiry_date = $this->setExpiryDate($request['borrower_enddate']);
@@ -139,10 +139,9 @@ class Borrower {
 
     }
 
-    private function setExpiryDate() {
+    private function setExpiryDate($date) {
 
-
-       $futureDate = date('Y-m-d', strtotime($this->expiry_date));
+       $futureDate = date('Y-m-d', strtotime($date));
        return $futureDate."T00:00:00Z";
 
     }

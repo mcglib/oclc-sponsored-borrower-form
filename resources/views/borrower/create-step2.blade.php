@@ -43,7 +43,7 @@
         <table class="table">
             <tr>
                     <td>This submission is for the renewal :</td>
-                    <td><strong>{{$borrower->borrower_renewal}}</strong></td>
+                    <td><strong>{{{$borrower->borrower_renewal }}}</strong></td>
             </tr>
             <tr>
                 <td>First Name:</td>

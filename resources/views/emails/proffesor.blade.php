@@ -6,7 +6,7 @@
 <body>
 		<p>Hello {{$borrower->prof_name}},</p>
 
-		@if ($borrower->borrower_renewal == 'yes')
+		@if ($borrower->borrower_renewal == 'Yes')
 		<p>Your Sponsored Borrower renewal request was submitted {{ $timestamp }}.</p>
 
 		<p>Your Sponsored Borrower, {{$borrower->borrower_fname}} {{$borrower->borrower_lname}}, has been notified by email.</p>

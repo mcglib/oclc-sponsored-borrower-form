@@ -6,7 +6,7 @@
 <body>
 <p>Hello {{$borrower->borrower_fname}} {{$borrower->borrower_lname}},</p>
 
-@if ($borrower->borrower_renewal == 'yes')
+@if ($borrower->borrower_renewal === 'Yes')
 <p>Your professor/supervisor, {{$borrower->prof_name}}, has requested the renewal of
 Your library privileges as a {{$borrower->getBorrowerCategoryLabel($borrower->borrower_cat)}}. </p>
 <p>Your Sponsored Borrower account will be renewed by the library branch indicated below.</p>
