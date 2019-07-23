@@ -1,3 +1,7 @@
+1.0.4
+- Added environemental variable to barcode stat code
+1.0.3
+- Tweaks to the UI and the fields
 1.0.2
 - Working form with ADFS integration
 - Email updates made
