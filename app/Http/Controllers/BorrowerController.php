@@ -87,7 +87,6 @@ class BorrowerController extends BaseController {
     public function createStep2(Request $request)
     {
         $borrower = $request->session()->get('borrower');
-        
         return view('borrower.create-step2')
           ->with(compact('borrower', $borrower));
     }
@@ -209,9 +208,9 @@ class BorrowerController extends BaseController {
         $borrower->borrower_province_state = $request['borrower_province_state'];
         $borrower->borrower_startdate = $request['borrower_startdate'];
         $borrower->borrower_enddate = $request['borrower_enddate'] ?? null;
-        $borrower->borrower_renewal = $request['borrower_renewal'] ?? false;
+        $borrower->borrower_renewal = $request['borrower_renewal'] ?? "No";
         $borrower->borrower_telephone = $request['borrower_telephone'] ?? null;
-        $borrower->borrower_terms = $request['borrower_terms'] ?? null;
+        $borrower->borrower_terms = $request['borrower_terms'] ?? "No";
 
         // Lets build the OCLC object
         return new \App\Oclc\Borrower((array)$borrower);

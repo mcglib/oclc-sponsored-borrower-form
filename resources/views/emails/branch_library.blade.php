@@ -5,7 +5,7 @@
 </head>
 <body>
 Hi,
-@if ($borrower->borrower_renewal == 'yes')
+@if ($borrower->borrower_renewal == 'Yes')
 <p>The following sponsored borrower form has been submitted for renewal on: </p>
 @else
 <p>The following sponsored borrower form has been submitted on: </p>

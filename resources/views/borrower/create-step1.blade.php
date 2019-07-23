@@ -22,19 +22,19 @@
 				<legend>Sponsored Borrower Category</legend>
                 <div class="form-group">
                    <label for="borrower_renewal" class="control-label"></label><br />
-                   {!! Form::checkbox('borrower_renewal','yes', $borrower->borrower_renewal ?? false,  ['class'=> 'checkbox']) !!}
+                   {!! Form::checkbox('borrower_renewal','Yes', $borrower->borrower_renewal ?? false,  ['class'=> 'checkbox']) !!}
                    This submission is for the renewal of an existing Sponsored Borrower.
                 </div>
                 <div class="form-group">
                     <label for="borrower_category" class="control-label required">Sponsored Borrower<span class="required">*</span></label>
-                    {!! Form::select('borrower_category', array_merge(['' => 'Please select the category'], $borrowing_categories), $borrower->borrower_category ?? null, ['class' => 'form-control', 'required' => 'required']) !!}
+                    {!! Form::select('borrower_category', array_merge(['' => 'Please select the category'], $borrowing_categories), $borrower->borrower_cat ?? null, ['class' => 'form-control', 'required' => 'required']) !!}
                 </div>
             </fieldset>
 			<fieldset class="form-group" id="library_information">
 				<legend>Library information</legend>
                 <div class="form-group">
                     <label for="branch_library" class="control-label required">Branch Library<span class="required">*</span></label>
-                    {!! Form::select('branch_library', array_merge(['' => 'Please select a branch'], $branch_libraries), $borrower->branch_library ?? null, ['class' => 'form-control', 'required' => 'required']) !!}
+                    {!! Form::select('branch_library', array_merge(['' => 'Please select a branch'], $branch_libraries), $borrower->branch_library_value ?? null, ['class' => 'form-control', 'required' => 'required']) !!}
                 </div>
             </fieldset>
 			<fieldset class="form-group" id="professors_information">
@@ -107,7 +107,7 @@
             <hr />
            <div class="form-group">
                <label for="borrower_terms" class="control-label">Terms<span class="required">*</span></label><br />
-               {!! Form::checkbox('borrower_terms', 'yes', $borrower->borrower_terms ?? false, ['class'=> 'checkbox', 'required' => 'required']) !!}
+               {!! Form::checkbox('borrower_terms', 'Yes', $borrower->borrower_terms ?? false, ['class'=> 'checkbox', 'required' => 'required']) !!}
                I accept full responsibility for fines, replacement costs and any other charges incurred by the aforementioned for library privileges authorized under my name.
            </div>
 
