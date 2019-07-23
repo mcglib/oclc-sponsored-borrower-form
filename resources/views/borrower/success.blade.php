@@ -14,12 +14,8 @@
 		<td class="text-large"><strong>{{$borrower->barcode}}</strong></td>
 	    </tr>
 	    @endif
-			
-		---------------------------------------------------------------------
-		@include('emails.account_details')
-		---------------------------------------------------------------------
-
-
+	</table>
+	@include('emails.account_details')
         <div class="form-group row">
 		<label class="col-lg-3 col-form-label form-control-label"></label>
 		<div class="col-lg-9">
