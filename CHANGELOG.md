@@ -1,3 +1,7 @@
+1.0.5
+- Fixed bug with select forms not keeping values
+- Updated the barcode start number on views
+- Fixed renewal and terms variables
 1.0.4
 - Added environemental variable to barcode stat code
 1.0.3
