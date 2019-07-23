@@ -209,9 +209,9 @@ class BorrowerController extends BaseController {
         $borrower->borrower_province_state = $request['borrower_province_state'];
         $borrower->borrower_startdate = $request['borrower_startdate'];
         $borrower->borrower_enddate = $request['borrower_enddate'] ?? null;
-        $borrower->borrower_renewal = $request['borrower_renewal'];
+        $borrower->borrower_renewal = $request['borrower_renewal'] ?? false;
         $borrower->borrower_telephone = $request['borrower_telephone'] ?? null;
-        $borrower->borrower_terms = $request['borrower_terms'];
+        $borrower->borrower_terms = $request['borrower_terms'] ?? null;
 
         // Lets build the OCLC object
         return new \App\Oclc\Borrower((array)$borrower);
