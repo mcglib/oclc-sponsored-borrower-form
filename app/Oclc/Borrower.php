@@ -338,7 +338,7 @@ class Borrower {
 	if (isset($this->prof_name)) {
 	   $data = array(
 		       "businessContext" => $this->institutionId,
-		       "note" => $this->prof_name.", ".$this->prof_dept.", ".$this->prof_email.", ".$this->prof_telephone
+		       "note" => "Sponsored by: ".$this->prof_name.", ".$this->prof_email
 	   );
 	   return array($data);
 

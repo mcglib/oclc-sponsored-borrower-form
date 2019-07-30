@@ -42,7 +42,7 @@
         <h4> Borrower's information </h4>
         <table class="table">
             <tr>
-                    <td>This submission is for the renewal :</td>
+                    <td>Is this a renewal?:</td>
                     <td><strong>{{{$borrower->borrower_renewal }}}</strong></td>
             </tr>
             <tr>
@@ -78,7 +78,7 @@
                 <td><strong>{{$borrower->borrower_enddate}}</strong></td>
             </tr>
             <tr>
-                <td>Borrower's terms:</td>
+                <td>Terms accepted?:</td>
                 <td><strong>{{$borrower->borrower_terms}}</strong></td>
             </tr>
         </table>
