@@ -24,7 +24,7 @@ class AccountCreated extends Mailable
         //
         $this->borrower = $borrower;
         $this->url = $_ENV['APP_URL'] ?? "https://cml.library.mcgill.ca/sponsored-borrower";
-        $this->timestamp = Carbon::now();
+        $this->timestamp = Carbon::now('America/New_York');
     }
 
     /**
@@ -35,7 +35,7 @@ class AccountCreated extends Mailable
     public function build()
     {
 
-      if($this->borrower->borrower_renewal) {
+      if($this->borrower->borrower_renewal == "Yes") {
         $subject = $_ENV['MAIL_SUBJECT_RENEWAL'] ?? 'McGill Library Sponsored Borrower form';
       }else {
         $subject = $_ENV['MAIL_SUBJECT'] ?? 'McGill Library Sponsored Borrower form';
