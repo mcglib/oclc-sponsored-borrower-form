@@ -442,7 +442,7 @@ class Borrower {
           ),
 	  'urn:mace:oclc.org:eidm:schema:persona:persona:20180305' =>  array (
 		  'institutionId' => $this->institutionId,
-		  'oclcExpirationDate' => $this->setExpiryDate(),
+		  'oclcExpirationDate' => $this->expiry_date,
 	  ),
 	);
 	return $data;
