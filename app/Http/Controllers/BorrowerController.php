@@ -106,6 +106,7 @@ class BorrowerController extends BaseController {
           ->with(compact('borrower', $borrower));
     }
 
+
     public function errorPage(Request $request)
     {
         $borrower = $request->session()->get('borrower');
@@ -116,8 +117,18 @@ class BorrowerController extends BaseController {
     public function send_emails($borrower) {
        $error_email = ENV('MAIL_ERROR_EMAIL_ADDRESS') ?? 'mutugi.gathuri@mcgill.ca';
 
+       // Email the borrower
+       if (!$this->verify_real_email($error_email, $borrower->borrower_email, $borrower)) {
+
+            $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
+            Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
+            $request->session()->flash('message', $error_msg);
+            return redirect('error')
+                   ->with('error', $error_msg);
+       }
+
+
        // Email the prof
-        // Verify the email before sending or creating a record.
         try{
           $result = Mail::to($borrower->prof_email)->send(new ProffesorEmail($borrower));
         }catch(\Swift_TransportException $e){
@@ -126,7 +137,7 @@ class BorrowerController extends BaseController {
             $request->session()->flash('message', $error_msg);
             return redirect('error')
                    ->with('error', $error_msg);
-        } 
+        }
 
         // Email the dept
         try{
@@ -137,7 +148,7 @@ class BorrowerController extends BaseController {
             $request->session()->flash('message', $error_msg);
             return redirect('error')
                    ->with('error', $error_msg);
-        } 
+        }
     }
 
 
@@ -146,26 +157,28 @@ class BorrowerController extends BaseController {
 
        $borrower = $request->session()->get('borrower');
 
-       // Verify the email before sending or creating a record.
-       $error_email = ENV('MAIL_ERROR_EMAIL_ADDRESS') ?? 'mutugi.gathuri@mcgill.ca';
-       if (!$this->verify_real_email($error_email, $borrower->borrower_email, $borrower)) {
+       if($borrower->borrower_renewal == "Yes") {
+            // Just send emails
+           // Send the prof and the dept the emails
+           $borrower->barcode = null;
+           $this->send_emails($borrower);
 
-            $error_msg = "The email address $borrower->borrower_email does not exist. Please check your spelling.";
-            Mail::to($error_email)->send(new GeneralError($borrower, $error_msg));
-            $request->session()->flash('message', $error_msg);
-            return redirect('error')
-                   ->with('error', $error_msg);
+           return redirect()->route('borrower.created')
+                ->with('success',
+                    'Congratulations, your request has been received!');
+       }else {
+           // Create an account
+           $borrower_created = $borrower->create();
        }
 
-       if ($borrower->create()){
+       if ($borrower_created){
 
-           
-           // Send the prof and the dept the emails
-            $this->send_emails($borrower);
+        // Send the prof and the dept the emails
+        $this->send_emails($borrower);
 
-            return redirect()->route('borrower.created')
-                   ->with('success',
-            		'Congratulations, your request has been received!');
+        return redirect()->route('borrower.created')
+                ->with('success',
+                'Congratulations, your request has been received!');
        }else {
          // Error occured.
          $borrower->error_msg();
@@ -178,7 +191,6 @@ class BorrowerController extends BaseController {
            ->with('oclcerror',
              'An Error has occured processing the request for the sponsored borrower.');
        }
-
        // clear session data
        $request->session()->flush();
     }
