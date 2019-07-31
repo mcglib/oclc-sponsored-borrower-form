@@ -11,9 +11,6 @@ branches:
   - key: value3
     label: Humanities and Social Sciences Library
     email: hsslloans.library@mcgill.ca
-  - key: value4
-    label: Life Sciences Library / Osler Library of History of Medicine
-    email: lslcirc.library@mcgill.ca
   - key: value5
     label: Macdonald Campus Library
     email: macdcirc.library@mcgill.ca
@@ -23,6 +20,3 @@ branches:
   - key: value8
     label: Nahum Gelber Law Library
     email: lawcirc.library@mcgill.ca
-  - key: value9
-    label: Schulich Library of Science and Engineering
-    email: schulichloans.library@mcgill.ca
