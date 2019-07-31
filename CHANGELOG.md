@@ -1,3 +1,6 @@
+1.0.7
+- Fixing the expiry date details and branch libraries
+
 1.0.6
 - Fixing subjects
 - Fixed bug with the app creating an account on renewal
