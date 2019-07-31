@@ -15,6 +15,7 @@
 	    </tr>
 	    @endif
 	</table>
+	@include('emails.prof_details')
 	@include('emails.account_details')
         <div class="form-group row">
 		<label class="col-lg-3 col-form-label form-control-label"></label>

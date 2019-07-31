@@ -1,6 +1,6 @@
 <table class="table">
    <tr>
-		<td>Branch Library:</td>
+		<td>Branch library:</td>
 		<td><strong>{{$borrower->branch_library_name}}</strong></td>
    </tr>
    <tr>
@@ -15,12 +15,16 @@
 	<td>Email address:</td>
 	<td><strong>{{$borrower->borrower_email}}</strong></td>
     </tr>
+
+	@if (isset($borrower->barcode))
     <tr>
 	<td>Temporary barcode:</td>
 	<td ><strong>{{$borrower->barcode}}</strong></td>
     </tr>
+    @endif
+
     <tr>
-	<td>Sponsored Borrower category:</td>
+	<td>Sponsored borrower category:</td>
 	<td><strong>{{$borrower->getBorrowerCategoryLabel($borrower->borrower_cat)}}</strong>
 	</td>
      </tr>
