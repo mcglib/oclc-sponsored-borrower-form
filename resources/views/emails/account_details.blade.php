@@ -1,6 +1,6 @@
 <table class="table">
    <tr>
-		<td>Branch Library:</td>
+		<td>Branch library:</td>
 		<td><strong>{{$borrower->branch_library_name}}</strong></td>
    </tr>
    <tr>
@@ -20,7 +20,7 @@
 	<td ><strong>{{$borrower->barcode}}</strong></td>
     </tr>
     <tr>
-	<td>Sponsored Borrower category:</td>
+	<td>Sponsored borrower category:</td>
 	<td><strong>{{$borrower->getBorrowerCategoryLabel($borrower->borrower_cat)}}</strong>
 	</td>
      </tr>

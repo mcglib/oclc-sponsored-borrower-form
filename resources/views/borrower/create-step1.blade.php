@@ -26,14 +26,14 @@
                    This submission is for the renewal of an existing Sponsored Borrower.
                 </div>
                 <div class="form-group">
-                    <label for="borrower_category" class="control-label required">Sponsored Borrower<span class="required">*</span></label>
+                    <label for="borrower_category" class="control-label required">Sponsored borrower<span class="required">*</span></label>
                     {!! Form::select('borrower_category', array_merge(['' => 'Please select the category'], $borrowing_categories), $borrower->borrower_cat ?? null, ['class' => 'form-control', 'required' => 'required']) !!}
                 </div>
             </fieldset>
 			<fieldset class="form-group" id="library_information">
 				<legend>Library information</legend>
                 <div class="form-group">
-                    <label for="branch_library" class="control-label required">Branch Library<span class="required">*</span></label>
+                    <label for="branch_library" class="control-label required">Branch library<span class="required">*</span></label>
                     {!! Form::select('branch_library', array_merge(['' => 'Please select a branch'], $branch_libraries), $borrower->branch_library_value ?? null, ['class' => 'form-control', 'required' => 'required']) !!}
                 </div>
             </fieldset>
@@ -44,7 +44,7 @@
                     {!! Form::input('text', 'prof_name', $borrower->prof_name ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="prof_email" class="control-label required">Email Address <span class="required">*</span></label>
+                    <label for="prof_email" class="control-label required">Email address <span class="required">*</span></label>
                     {!! Form::input('email', 'prof_email', $borrower->prof_email ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}
                 </div>
                 <div class="form-group">
@@ -96,11 +96,11 @@
                 <hr />
                 <br />
                <div class="form-group">
-                <label for="borrower_startdate" class="control-label">Period of Authorization From<span class="required">*</span></label>
+                <label for="borrower_startdate" class="control-label">Period of authorization from<span class="required">*</span></label>
                 {!! Form::date('borrower_startdate',$borrower->borrower_startdate ?? \Carbon\Carbon::now()->format('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
                </div>
                <div class="form-group">
-                <label for="borrower_enddate" class="control-label">Period of Authorization To<span class="required">*</span></label>
+                <label for="borrower_enddate" class="control-label">Period of authorization to<span class="required">*</span></label>
                 {!! Form::date('borrower_enddate', $borrower->borrower_enddate ?? \Carbon\Carbon::today()->addYears(1)->format('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
                </div>
             </fieldset>

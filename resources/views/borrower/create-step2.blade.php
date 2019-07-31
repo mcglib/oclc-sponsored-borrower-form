@@ -5,10 +5,10 @@
     <br />
     <form action="store" method="post" id="store-form" >
     {{ csrf_field() }}
-        <h4> Sponsored Borrower </h4>
+        <h4> Sponsored borrower </h4>
         <table class="table">
             <tr>
-                <td>Requested Borrowing Category:</td>
+                <td>Requested borrowing category:</td>
 		        <td><strong>{{$borrower->getBorrowerCategoryLabel($borrower->borrower_cat)}}</strong></td>
             </tr>
         </table>
@@ -46,11 +46,11 @@
                     <td><strong>{{{$borrower->borrower_renewal }}}</strong></td>
             </tr>
             <tr>
-                <td>First Name:</td>
+                <td>First name:</td>
                 <td><strong>{{$borrower->borrower_fname}}</strong></td>
             </tr>
             <tr>
-                <td>Last Name:</td>
+                <td>Last name:</td>
                 <td><strong>{{$borrower->borrower_lname}}</strong></td>
             </tr>
             <tr>
@@ -70,11 +70,11 @@
                 </strong></td>
             </tr>
             <tr>
-                <td>Period of Authorization From:</td>
+                <td>Period of authorization from:</td>
                 <td><strong>{{$borrower->borrower_startdate}}</strong></td>
             </tr>
             <tr>
-                <td>Period of Authorization To:</td>
+                <td>Period of authorization to:</td>
                 <td><strong>{{$borrower->borrower_enddate}}</strong></td>
             </tr>
             <tr>
