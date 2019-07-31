@@ -1,3 +1,8 @@
+1.0.6
+- Fixing subjects
+- Fixed bug with the app creating an account on renewal
+- Fixed the emails and sentence case
+- Fixing typos
 1.0.5
 - Fixed bug with select forms not keeping values
 - Updated the barcode start number on views
