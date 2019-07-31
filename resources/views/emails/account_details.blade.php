@@ -15,10 +15,14 @@
 	<td>Email address:</td>
 	<td><strong>{{$borrower->borrower_email}}</strong></td>
     </tr>
+
+	@if (isset($borrower->barcode))
     <tr>
 	<td>Temporary barcode:</td>
 	<td ><strong>{{$borrower->barcode}}</strong></td>
     </tr>
+    @endif
+
     <tr>
 	<td>Sponsored borrower category:</td>
 	<td><strong>{{$borrower->getBorrowerCategoryLabel($borrower->borrower_cat)}}</strong>
