@@ -34,8 +34,12 @@ class AccountCreated extends Mailable
      */
     public function build()
     {
-      $subject = $_ENV['MAIL_SUBJECT'] ?? 'McGill Library Sponsored Borrower form';
 
+      if($this->borrower->borrower_renewal) {
+        $subject = $_ENV['MAIL_SUBJECT_RENEWAL'] ?? 'McGill Library Sponsored Borrower form';
+      }else {
+        $subject = $_ENV['MAIL_SUBJECT'] ?? 'McGill Library Sponsored Borrower form';
+      }
       return $this->view('emails.borrower')
               ->subject($subject)
               ->text('emails.borrower_plain');

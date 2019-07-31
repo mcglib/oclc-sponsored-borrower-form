@@ -58,10 +58,10 @@ class Borrower {
 	   $this->borrower_cat = $request['borrower_cat'];
 	   $this->borrower_telephone = $request['borrower_telephone'] ?? null;
 
-         $this->prof_name = $request['prof_name'] ?? null;
-         $this->prof_dept = $request['prof_dept'] ?? null;
-	 $this->prof_email = $request['prof_email'] ?? null;
-         $this->prof_telephone = $request['prof_telephone'] ?? null;
+       $this->prof_name = $request['prof_name'] ?? null;
+       $this->prof_dept = $request['prof_dept'] ?? null;
+	   $this->prof_email = $request['prof_email'] ?? null;
+       $this->prof_telephone = $request['prof_telephone'] ?? null;
 
 
         $this->branch_library_name = $request['branch_library_name'] ?? null;
@@ -338,7 +338,7 @@ class Borrower {
 	if (isset($this->prof_name)) {
 	   $data = array(
 		       "businessContext" => $this->institutionId,
-		       "note" => $this->prof_name.", ".$this->prof_dept.", ".$this->prof_email.", ".$this->prof_telephone
+		       "note" => "Sponsored by: ".$this->prof_name.", ".$this->prof_email
 	   );
 	   return array($data);
 
@@ -356,21 +356,21 @@ class Borrower {
 
 	$data = array();
 
-        $data_1 = array(
-               "businessContext" => "Circulation_Info",
-               "key" => "customdata1",
-               "value" => ""
-        );
-        $data[] = $data_1;
+    $data_1 = array(
+           "businessContext" => "Circulation_Info",
+           "key" => "customdata1",
+           "value" => $this->prof_dept  // Load the Prof department affiliatiion
+    );
+    $data[] = $data_1;
 
-        if (!empty($custom_data_2)) {
-	   $data_2 = array(
-		 "businessContext" => "Circulation_Info",
-	         "key" => "customdata2",
-		 "value" => $custom_data_2
-	    );
-	    $data[] = $data_2;
-	}
+    if (!empty($custom_data_2)) {
+        $data_2 = array(
+         "businessContext" => "Circulation_Info",
+             "key" => "customdata2",
+         "value" => $custom_data_2
+        );
+        $data[] = $data_2;
+    }
 
         if (!empty($custom_data_3)) {
 	   $data_3 = array(

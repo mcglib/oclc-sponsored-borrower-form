@@ -25,12 +25,5 @@ categories:
     label: McGill PhD extension
     wms_custom_data_3: PhD extension
     home_institution: false
-    wms_custom_data_2: 
-    need_address: true
-  - key: value5
-    borrower_category: McGill undergraduate
-    label: Short term program participant
-    wms_custom_data_3: Short term program participant
-    home_institution: false
     wms_custom_data_2:
     need_address: true
