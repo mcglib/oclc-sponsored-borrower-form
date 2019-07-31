@@ -8,7 +8,7 @@ Hi,
 @if ($borrower->borrower_renewal == 'Yes')
     <p>The following sponsored borrower form has been submitted for renewal on: {{ $timestamp }}</p>
 @else
-    <p>The following sponsored borrower form has been submitted on: </p>
+    <p>The following sponsored borrower form has been submitted on: {{ $timestamp  }}</p>
 @endif
 
 ---------------------------------------------------------------------
