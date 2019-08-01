@@ -34,18 +34,19 @@ $(document).ready(function () {
     $('#store-form').preventDoubleSubmission();
 
     var  checkbox = $('#showRenewal'),
+        chAuthFromBlock = $('#RenewalAuthFrom'),
         chRenewalBlock = $('#showRenewalsInputs');
 
     chRenewalBlock.hide();
+    chAuthFromBlock.show();
 
     checkbox.on('click', function() {
         if($(this).is(':checked')) {
           chRenewalBlock.show();
+          chAuthFromBlock.hide();
         } else {
           chRenewalBlock.hide();
+          chAuthFromBlock.show();
         }
     })
-
-
-
 });
