@@ -1,4 +1,4 @@
-Proffesor's name:{{$borrower->prof_name}}
-Proffesor's email:{{$borrower->prof_email}}
-Proffesor's department:{{$borrower->prof_dept}}
-Proffesor's telephone:{{$borrower->prof_telephone}}
+Professor's name:{{$borrower->prof_name}}
+Professor's email:{{$borrower->prof_email}}
+Professor's department:{{$borrower->prof_dept}}
+Professor's telephone:{{$borrower->prof_telephone}}
