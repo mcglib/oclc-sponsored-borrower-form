@@ -1,3 +1,6 @@
+1.0.8.2
+- Fixing the timestamp
+
 1.0.8.1
 - Fixing the timestamp
 1.0.8
