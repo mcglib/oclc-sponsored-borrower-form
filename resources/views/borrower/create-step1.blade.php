@@ -16,13 +16,13 @@
                 </ul>
                 </div>
                 @endif
-		   <form action="create-step1" method="post">
+		   <form action="create-step1" id="store-form" method="post">
 		    {{ csrf_field() }}
 			<fieldset class="form-group" id="library_information">
 				<legend>Sponsored Borrower Category</legend>
                 <div class="form-group">
                    <label for="borrower_renewal" class="control-label"></label><br />
-                   {!! Form::checkbox('borrower_renewal','Yes', $borrower->borrower_renewal ?? false,  ['class'=> 'checkbox']) !!}
+                   {!! Form::checkbox('borrower_renewal','Yes', $borrower->borrower_renewal ?? false,  ['class'=> 'checkbox', 'id' => 'showRenewal']) !!}
                    This submission is for the renewal of an existing Sponsored Borrower.
                 </div>
                 <div class="form-group">
@@ -57,7 +57,13 @@
                 </div>
             </fieldset>
 			<fieldset class="form-group" id="borrower_information">
-				<legend>Borrower information</legend>
+                <legend>Borrower information</legend>
+                <div id="showRenewalsInputs">
+                    <div class="form-group">
+                        <label for="renewal_bar_code" class="control-label">Barcode</label>
+                        {!! Form::input('text', 'renewal_bar_code', $borrower->renewal_bar_code ?? null, ['class'=> 'form-control']) !!}
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="borrower_fname" class="control-label required">First name <span class="required">*</span></label>
                     {!! Form::input('text', 'borrower_fname', $borrower->borrower_fname ?? null, ['class'=> 'form-control', 'required' => 'required']) !!}

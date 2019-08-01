@@ -71,28 +71,31 @@ class Borrower {
          $this->borrower_city = $request['borrower_city'] ?? null;
          $this->borrower_terms = $request['borrower_terms'];
          $this->borrower_renewal = $request['borrower_renewal'];
-	 $this->borrower_address1 = $request['borrower_address1'] ?? null;
-	 $this->borrower_address2 = $request['borrower_address2'] ?? null;
-	 $this->borrower_postal_code = $request['borrower_postal_code'] ?? null;
-	 $this->borrower_enddate = $request['borrower_enddate'] ?? null;
-	 $this->borrower_startdate = $request['borrower_startdate'] ?? null;
-	 $this->borrower_province_state = $request['borrower_province_state'] ?? "Quebec";
+	    $this->borrower_address1 = $request['borrower_address1'] ?? null;
+	    $this->borrower_address2 = $request['borrower_address2'] ?? null;
+	    $this->borrower_postal_code = $request['borrower_postal_code'] ?? null;
+	    $this->borrower_enddate = $request['borrower_enddate'] ?? null;
+	    $this->borrower_startdate = $request['borrower_startdate'] ?? null;
+	    $this->borrower_province_state = $request['borrower_province_state'] ?? "Quebec";
 
 
-     $oclc_config = config('oclc.connections.development');
+        $oclc_config = config('oclc.connections.development');
 
-	 $this->institutionId = $oclc_config['institution_id'];
+	    $this->institutionId = $oclc_config['institution_id'];
 
-	 $this->homeBranch = $oclc_config['home_branch'];
+	    $this->homeBranch = $oclc_config['home_branch'];
 
-	 // set the address
+	    // set the address
         $this->addAddress($request);
 
-	 // set the expiry date
-	 $this->expiry_date = $this->setExpiryDate($request['borrower_enddate']);
+	    // set the expiry date
+	    $this->expiry_date = $this->setExpiryDate($request['borrower_enddate']);
 
-       // Generate the barcode
-	 $this->barcode = $this->generateBarCode();
+        // Generate the barcode
+        $this->barcode = $this->generateBarCode();
+        // set the registrationDate
+        $this->registration_date = $this->setRegistrationDate($request['borrower_startdate']);
+
     }
     public function create() {
 
@@ -143,6 +146,12 @@ class Borrower {
 
        $futureDate = date('Y-m-d', strtotime($date));
        return $futureDate."T00:00:00Z";
+
+    }
+    private function setRegistrationDate($date) {
+
+       $regDate = date('Y-m-d', strtotime($date));
+       return $regDate;
 
     }
     private function setAuth($token) {
@@ -388,7 +397,8 @@ class Borrower {
         return array (
 			'barcode' => $this->barcode,
 			'borrowerCategory' => $this->getBorrowerCategoryName($this->borrower_cat),
-			'homeBranch' => $this->homeBranch,
+            'homeBranch' => $this->homeBranch,
+            //'circRegistrationDate' => $this->registration_date,
 			'isVerified' => false,
 	      	        "isCircBlocked" =>  true,
                         "isCollectionExempt" =>  false,
