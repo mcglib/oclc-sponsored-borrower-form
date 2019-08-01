@@ -14,6 +14,10 @@ Hi,
 ---------------------------------------------------------------------
 @include('emails.prof_details')
 @include('emails.account_details')
+
+<p>Terms: I accept full responsibility for fines, replacement costs and any
+    other charges incurred by the aforementioned for library privileges
+    authorized under my name.</p>
 ---------------------------------------------------------------------
 
 </body>

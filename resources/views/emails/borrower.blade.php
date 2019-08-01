@@ -26,7 +26,7 @@ rebecca.nicholson@mcgill.ca.</p>
 @include('emails.account_details')
 ---------------------------------------------------------------------
 
-<p>If you need further assistance, please feel free to ask us. [https://www.mcgill.ca/library/contact/askus ].</p>
+<p>If you need further assistance, please feel free to  <a href="https://www.mcgill.ca/library/contact/askus">ask us</a>.</p>
 
 </body>
 </html>
