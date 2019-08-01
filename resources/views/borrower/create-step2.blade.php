@@ -20,7 +20,7 @@
                 <td><strong>{{$borrower->branch_library_name}}</strong></td>
             </tr>
         </table>
-        <h4> Proffesor's information </h4>
+        <h4> Professor's information </h4>
         <table class="table">
             <tr>
                 <td>Name:</td>
