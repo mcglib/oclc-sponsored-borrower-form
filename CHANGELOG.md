@@ -1,3 +1,6 @@
+1.0.9
+- Add a check for renewals
+- Added a way to hide the Auth from date when its a renewal
 1.0.8.3
 - Fixing the emails and professor spellings
 1.0.8.2
