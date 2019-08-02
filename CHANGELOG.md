@@ -1,3 +1,5 @@
+1.0.9.1
+- Adding the code for proper image
 1.0.9
 - Add a check for renewals
 - Added a way to hide the Auth from date when its a renewal
