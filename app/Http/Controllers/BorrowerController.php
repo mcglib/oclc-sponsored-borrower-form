@@ -224,6 +224,9 @@ class BorrowerController extends BaseController {
         $borrower->borrower_telephone = $request['borrower_telephone'] ?? null;
         $borrower->borrower_terms = $request['borrower_terms'] ?? "No";
 
+       if($borrower->borrower_renewal == "Yes") {
+        $borrower->borrower_renewal_barcode = $request['borrower_renewal_barcode'] ?? null;
+       }
         // Lets build the OCLC object
         return new \App\Oclc\Borrower((array)$borrower);
     }

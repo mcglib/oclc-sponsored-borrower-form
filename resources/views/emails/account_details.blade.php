@@ -3,6 +3,12 @@
 		<td>Branch library:</td>
 		<td><strong>{{$borrower->branch_library_name}}</strong></td>
    </tr>
+    @if (isset($borrower->borrower_renewal_barcode))
+    <tr>
+	<td>Barcode:</td>
+	<td><strong>{{$borrower->borrower_renewal_barcode}}</strong></td>
+    </tr>
+    @endif
    <tr>
 	<td>First name:</td>
 	<td><strong>{{$borrower->borrower_fname}}</strong></td>
@@ -16,7 +22,7 @@
 	<td><strong>{{$borrower->borrower_email}}</strong></td>
     </tr>
 
-	@if (isset($borrower->barcode))
+    @if (isset($borrower->barcode))
     <tr>
 	<td>Temporary barcode:</td>
 	<td ><strong>{{$borrower->barcode}}</strong></td>
@@ -28,13 +34,15 @@
 	<td><strong>{{$borrower->getBorrowerCategoryLabel($borrower->borrower_cat)}}</strong>
 	</td>
      </tr>
-     <tr>
-			<td>Authorized from:</td>
-			<td><strong>{{$borrower->borrower_startdate}}</strong></td>
-    </tr>
+     @if (!$borrower->is_renewal())
+	<tr>
+		<td>Authorized from:</td>
+		<td><strong>{{$borrower->borrower_startdate}}</strong></td>
+	</tr>
+     @endif
     <tr>
-			<td>Authorized to:</td>
-			<td><strong>{{$borrower->borrower_enddate}}</strong></td>
+		<td>Authorized to:</td>
+		<td><strong>{{$borrower->borrower_enddate}}</strong></td>
     </tr>
     <tr>
 		<td>Address:</td>
