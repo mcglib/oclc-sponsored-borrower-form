@@ -42,6 +42,7 @@ class Borrower extends FormRequest
 	    'borrower_startdate' => 'required',
 	    'borrower_enddate' => 'required',
 	    'borrower_renewal' => 'nullable',
+	    'borrower_renewal_barcode' => 'nullable',
 	    'borrower_telephone' => 'nullable',
 	    'borrower_terms' => 'required',
         ];

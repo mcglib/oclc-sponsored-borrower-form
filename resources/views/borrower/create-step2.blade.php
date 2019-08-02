@@ -45,6 +45,12 @@
                     <td>Is this a renewal?:</td>
                     <td><strong>{{{$borrower->borrower_renewal }}}</strong></td>
             </tr>
+	    @if (isset($borrower->borrower_renewal_barcode))
+            <tr>
+                <td>Barcode:</td>
+                <td><strong>{{$borrower->borrower_renewal_barcode}}</strong></td>
+            </tr>
+	    @endif
             <tr>
                 <td>First name:</td>
                 <td><strong>{{$borrower->borrower_fname}}</strong></td>
@@ -69,10 +75,12 @@
                     </address>
                 </strong></td>
             </tr>
+	    @if (!$borrower->is_renewal())
             <tr>
                 <td>Period of authorization from:</td>
                 <td><strong>{{$borrower->borrower_startdate}}</strong></td>
             </tr>
+	    @endif
             <tr>
                 <td>Period of authorization to:</td>
                 <td><strong>{{$borrower->borrower_enddate}}</strong></td>

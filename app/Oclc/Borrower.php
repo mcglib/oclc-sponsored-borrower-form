@@ -28,6 +28,7 @@ class Borrower {
     public $borrower_address2;
     public $borrower_enddate, $borrower_startdate, $borrower_renewal, $borrower_terms;
     public $borrower_postal_code, $borrower_province_state;
+    public $borrower_renewal_barcode;
     public $branch_library_name, $branch_library_email, $branch_library_value;
     public $prof_name, $prof_dept, $prof_email, $prof_telephone;
     public $expiry_date;
@@ -49,52 +50,56 @@ class Borrower {
     private $institutionId;
 
     function __construct($request) {
-	   // Set the variables
-	    $this->data = $request;
+	// Set the variables
+	$this->data = $request;
 
-	   $this->borrower_fname = $request['borrower_fname'];
-	   $this->borrower_lname = $request['borrower_lname'];
-	   $this->borrower_email = $request['borrower_email'];
-	   $this->borrower_cat = $request['borrower_cat'];
-	   $this->borrower_telephone = $request['borrower_telephone'] ?? null;
+	$this->borrower_fname = $request['borrower_fname'];
+	$this->borrower_lname = $request['borrower_lname'];
+	$this->borrower_email = $request['borrower_email'];
+	$this->borrower_cat = $request['borrower_cat'];
+	$this->borrower_telephone = $request['borrower_telephone'] ?? null;
 
-       $this->prof_name = $request['prof_name'] ?? null;
-       $this->prof_dept = $request['prof_dept'] ?? null;
-	   $this->prof_email = $request['prof_email'] ?? null;
-       $this->prof_telephone = $request['prof_telephone'] ?? null;
-
-
-        $this->branch_library_name = $request['branch_library_name'] ?? null;
-        $this->branch_library_value = $request['branch_library_value'] ?? null;
-        $this->branch_library_email = $request['branch_library_email'] ?? null;
-
-         $this->borrower_city = $request['borrower_city'] ?? null;
-         $this->borrower_terms = $request['borrower_terms'];
-         $this->borrower_renewal = $request['borrower_renewal'];
-	    $this->borrower_address1 = $request['borrower_address1'] ?? null;
-	    $this->borrower_address2 = $request['borrower_address2'] ?? null;
-	    $this->borrower_postal_code = $request['borrower_postal_code'] ?? null;
-	    $this->borrower_enddate = $request['borrower_enddate'] ?? null;
-	    $this->borrower_startdate = $request['borrower_startdate'] ?? null;
-	    $this->borrower_province_state = $request['borrower_province_state'] ?? "Quebec";
+	$this->prof_name = $request['prof_name'] ?? null;
+	$this->prof_dept = $request['prof_dept'] ?? null;
+	$this->prof_email = $request['prof_email'] ?? null;
+	$this->prof_telephone = $request['prof_telephone'] ?? null;
 
 
-        $oclc_config = config('oclc.connections.development');
+	$this->branch_library_name = $request['branch_library_name'] ?? null;
+	$this->branch_library_value = $request['branch_library_value'] ?? null;
+	$this->branch_library_email = $request['branch_library_email'] ?? null;
 
-	    $this->institutionId = $oclc_config['institution_id'];
+	$this->borrower_city = $request['borrower_city'] ?? null;
+	$this->borrower_terms = $request['borrower_terms'];
+	$this->borrower_address1 = $request['borrower_address1'] ?? null;
+	$this->borrower_address2 = $request['borrower_address2'] ?? null;
+	$this->borrower_postal_code = $request['borrower_postal_code'] ?? null;
+	$this->borrower_enddate = $request['borrower_enddate'] ?? null;
+	$this->borrower_startdate = $request['borrower_startdate'] ?? null;
+	$this->borrower_province_state = $request['borrower_province_state'] ?? "Quebec";
 
-	    $this->homeBranch = $oclc_config['home_branch'];
+	$this->borrower_renewal = $request['borrower_renewal'];
 
-	    // set the address
-        $this->addAddress($request);
+	if($this->borrower_renewal == "Yes") {
+     	   $this->borrower_renewal_barcode = $request['borrower_renewal_barcode'] ?? null;
+	}
 
-	    // set the expiry date
-	    $this->expiry_date = $this->setExpiryDate($request['borrower_enddate']);
+	$oclc_config = config('oclc.connections.development');
 
-        // Generate the barcode
-        $this->barcode = $this->generateBarCode();
-        // set the registrationDate
-        $this->registration_date = $this->setRegistrationDate($request['borrower_startdate']);
+	$this->institutionId = $oclc_config['institution_id'];
+
+	$this->homeBranch = $oclc_config['home_branch'];
+
+	// set the address
+	$this->addAddress($request);
+
+	// set the expiry date
+	$this->expiry_date = $this->setExpiryDate($request['borrower_enddate']);
+
+	// Generate the barcode
+	$this->barcode = $this->generateBarCode();
+	// set the registrationDate
+	$this->registration_date = $this->setRegistrationDate($request['borrower_startdate']);
 
     }
     public function create() {
@@ -117,6 +122,13 @@ class Borrower {
       }
       return FALSE;
 
+    }
+
+    public function is_renewal() {
+	if ($this->borrower_renewal == "Yes") {
+		return true;
+	}
+	return false;
     }
 
     public function error_msg() {
@@ -395,14 +407,14 @@ class Borrower {
     private function getCircInfo() {
 
         return array (
-			'barcode' => $this->barcode,
-			'borrowerCategory' => $this->getBorrowerCategoryName($this->borrower_cat),
-            'homeBranch' => $this->homeBranch,
-            //'circRegistrationDate' => $this->registration_date,
-			'isVerified' => false,
-	      	        "isCircBlocked" =>  true,
-                        "isCollectionExempt" =>  false,
-                        "isFineExempt" => false,
+		'barcode' => $this->barcode,
+		'borrowerCategory' => $this->getBorrowerCategoryName($this->borrower_cat),
+		'homeBranch' => $this->homeBranch,
+		'circRegistrationDate' => $this->registration_date,
+		'isVerified' => false,
+		"isCircBlocked" =>  true,
+		"isCollectionExempt" =>  false,
+		"isFineExempt" => false,
 	);
 
     }

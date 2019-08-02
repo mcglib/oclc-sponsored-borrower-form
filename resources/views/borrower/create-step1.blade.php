@@ -58,10 +58,10 @@
             </fieldset>
 			<fieldset class="form-group" id="borrower_information">
                 <legend>Borrower information</legend>
-                <div id="showRenewalsInputs">
+                <div id="BarcodeBlock">
                     <div class="form-group">
-                        <label for="renewal_bar_code" class="control-label">Barcode</label>
-                        {!! Form::input('text', 'renewal_bar_code', $borrower->renewal_bar_code ?? null, ['class'=> 'form-control']) !!}
+                        <label for="borrower_renewal_barcode" class="control-label">Barcode</label>
+                        {!! Form::input('text', 'borrower_renewal_barcode', $borrower->borrower_renewal_barcode ?? null, ['class'=> 'form-control']) !!}
                     </div>
                 </div>
                 <div class="form-group">
@@ -101,12 +101,15 @@
                 <br />
                 <hr />
                 <br />
-                <div id="hideRenewalAuthFrom">
+                <div id="RenewalAuthFrom">
                     <div class="form-group">
                     <label for="borrower_startdate" class="control-label">Period of authorization from<span class="required">*</span></label>
                     {!! Form::date('borrower_startdate',$borrower->borrower_startdate ?? \Carbon\Carbon::now()->format('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
                    </div>
                 </div>
+                <div id="RenewalAuthToTxt" class="hidden">
+		   <p>Please select the new expiry date.</p>
+		</div>
                <div class="form-group">
                 <label for="borrower_enddate" class="control-label">Period of authorization to<span class="required">*</span></label>
                 {!! Form::date('borrower_enddate', $borrower->borrower_enddate ?? \Carbon\Carbon::today()->addYears(1)->format('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}

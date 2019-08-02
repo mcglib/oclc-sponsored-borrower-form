@@ -33,19 +33,30 @@ $(document).ready(function () {
     // Get the curr val
     $('#store-form').preventDoubleSubmission();
 
-    var  checkbox = $('#showRenewal'),
+    var checkbox = $('#showRenewal'),
         chAuthFromBlock = $('#RenewalAuthFrom'),
-        chRenewalBlock = $('#showRenewalsInputs');
+	chAuthToTxtBlock = $('#RenewalAuthToTxt'),
+        chBarcodeBlock = $('#BarcodeBlock');
 
-    chRenewalBlock.hide();
-    chAuthFromBlock.show();
+    if (checkbox.is(':checked')) {
+        chBarcodeBlock.show();
+    	chAuthToTxtBlock.show();
+        chAuthFromBlock.hide();
+	
+    }else {
+    	chAuthFromBlock.show();
+    	chAuthToTxtBlock.hide();
+    	chBarcodeBlock.hide();
+    }
 
     checkbox.on('click', function() {
         if($(this).is(':checked')) {
-          chRenewalBlock.show();
+          chBarcodeBlock.show();
           chAuthFromBlock.hide();
+    	  chAuthToTxtBlock.show();
         } else {
-          chRenewalBlock.hide();
+          chBarcodeBlock.hide();
+    	  chAuthToTxtBlock.hide();
           chAuthFromBlock.show();
         }
     })
