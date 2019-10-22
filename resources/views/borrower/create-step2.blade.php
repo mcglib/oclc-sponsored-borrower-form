@@ -67,7 +67,7 @@
                 <td>Address:</td>
                 <td><strong>
                     <address>
-                    {{$borrower->borrower_address1}}
+                    {{$borrower->borrower_address1}}<br />
                     {{$borrower->borrower_address2}}<br />
                     {{$borrower->borrower_city}}<br />
                     {{$borrower->borrower_province_state}}<br />
