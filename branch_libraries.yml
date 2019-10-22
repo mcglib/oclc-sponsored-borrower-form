@@ -1,16 +1,16 @@
 branches:
   - key: value10
     label: Test branch
-    email: rebecca.nicholson@mcgill.ca
+    email: d.nicholson@mcgill.ca
   - key: value1
-    label: Education Library and Curriculum Resources Centre
+    label: Education Curriculum Resources Centre
     email: educcirc.library@mcgill.ca
-  - key: value2
-    label: Howard Ross Library of Management
-    email: hrmgcirc.library@mcgill.ca
   - key: value3
     label: Humanities and Social Sciences Library
     email: hsslloans.library@mcgill.ca
+  - key: value4
+    label: Islamic Studies Library
+    email: islmcirc.library@mcgill.ca
   - key: value5
     label: Macdonald Campus Library
     email: macdcirc.library@mcgill.ca
