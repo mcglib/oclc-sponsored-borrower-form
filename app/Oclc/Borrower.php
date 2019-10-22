@@ -280,13 +280,13 @@ class Borrower {
 	    if (isset($request['borrower_postal_code'])) {
 	       $locality = isset($request['borrower_address2']) ? $request['borrower_address2'] : "";
 	       $this->addresses[] = [
-		"streetAddress" => $request['borrower_address1'],
-		"region" => $request['borrower_city'],
-		"locality" => $locality,
-		"postalCode" => $request['borrower_postal_code'],
-		"type" => "",
-		"primary" => false
-	       ];
+            "streetAddress" => $request['borrower_address1'],
+            "region" => $request['borrower_city'],
+            "locality" => $locality,
+            "postalCode" => $request['borrower_postal_code'],
+            "type" => "",
+            "primary" => false
+               ];
 	    }
 
     }
