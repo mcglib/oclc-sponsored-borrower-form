@@ -114,7 +114,7 @@ class BorrowerController extends BaseController {
           ->with(compact('borrower', $borrower));
     }
 
-    public function send_emails($borrower) {
+    public function send_emails($request, $borrower) {
        $error_email = ENV('MAIL_ERROR_EMAIL_ADDRESS') ?? 'mutugi.gathuri@mcgill.ca';
 
        // Email the borrower
@@ -129,31 +129,32 @@ class BorrowerController extends BaseController {
 
 
        // Email the prof
-        try{
-          $result = Mail::to($borrower->prof_email)->send(new ProffesorEmail($borrower));
-        }catch(\Swift_TransportException $e){
-          $response = $e->getMessage() ;
-          Mail::to($error_email)->send(new GeneralError($borrower, $response));
-            $request->session()->flash('message', $error_msg);
+        try {
+            $result = Mail::to($borrower->prof_email)->send(new ProffesorEmail($borrower));
+        } catch(\Swift_TransportException $e) {
+            $response = $e->getMessage();
+            Mail::to($error_email)->send(new GeneralError($borrower, $response));
+            $request->session()->flash('message', $response);
             return redirect('error')
-                   ->with('error', $error_msg);
+                   ->with('error', $response);
         }
 
         // Email the dept
-        try{
-          $result = Mail::to($borrower->branch_library_email)->send(new LibraryEmail($borrower));
-        }catch(\Swift_TransportException $e){
-          $response = $e->getMessage() ;
-          Mail::to($error_email)->send(new GeneralError($borrower, $response));
-            $request->session()->flash('message', $error_msg);
+        try {
+            $result = Mail::to($borrower->branch_library_email)->send(new LibraryEmail($borrower));
+        } catch(\Swift_TransportException $e) {
+            $response = $e->getMessage();
+            Mail::to($error_email)->send(new GeneralError($borrower, $response));
+            $request->session()->flash('message', $response);
             return redirect('error')
-                   ->with('error', $error_msg);
+                   ->with('error', $response);
         }
     }
 
 
     public function store(Request $request)
     {
+        $error_email = ENV('MAIL_ERROR_EMAIL_ADDRESS') ?? 'mutugi.gathuri@mcgill.ca';
 
        $borrower = $request->session()->get('borrower');
 
@@ -161,38 +162,40 @@ class BorrowerController extends BaseController {
             // Just send emails
            // Send the prof and the dept the emails
            $borrower->barcode = null;
-           $this->send_emails($borrower);
+           $this->send_emails($request, $borrower);
 
            return redirect()->route('borrower.created')
                 ->with('success',
                     'Congratulations, your request has been received!');
-       }else {
+       } else {
            // Create an account
            $borrower_created = $borrower->create();
        }
 
-       if ($borrower_created){
+       if ($borrower_created) {
+            // Send the prof and the dept the emails
+            $this->send_emails($request, $borrower);
 
-        // Send the prof and the dept the emails
-        $this->send_emails($borrower);
+            // clear session data
+            $request->session()->flush();
 
-        return redirect()->route('borrower.created')
-                ->with('success',
-                'Congratulations, your request has been received!');
-       }else {
-         // Error occured.
-         $borrower->error_msg();
+            return redirect()->route('borrower.created')
+                    ->with('success',
+                    'Congratulations, your request has been received!');
+       } else {
+            // Error occurred.
+            $borrower->error_msg();
 
-         // Send the email with the data
-         Mail::to($error_email)->send(new OclcError($borrower));
+            // Send the email with the data
+            Mail::to($error_email)->send(new OclcError($borrower));
 
-         // Redirect to the form.
-         return redirect('error')
-           ->with('oclcerror',
-             'An Error has occured processing the request for the sponsored borrower.');
+            // clear session data
+            $request->session()->flush();
+
+            // Redirect to the form.
+            return redirect('error')
+            ->with('oclcerror', 'An Error has occured processing the request for the sponsored borrower.');
        }
-       // clear session data
-       $request->session()->flush();
     }
 
     private function build_borrower($request) {
