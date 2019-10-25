@@ -176,9 +176,6 @@ class BorrowerController extends BaseController {
             // Send the prof and the dept the emails
             $this->send_emails($request, $borrower);
 
-            // clear session data
-            $request->session()->flush();
-
             return redirect()->route('borrower.created')
                     ->with('success',
                     'Congratulations, your request has been received!');
