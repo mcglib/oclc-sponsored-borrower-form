@@ -1,3 +1,5 @@
+1.0.10
+- Changed from 1year renewal to 1month
 1.0.9.1
 - Adding the code for proper image
 1.0.9
