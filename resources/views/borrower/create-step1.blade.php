@@ -112,7 +112,7 @@
 		</div>
                <div class="form-group">
                 <label for="borrower_enddate" class="control-label">Period of authorization to<span class="required">*</span></label>
-                {!! Form::date('borrower_enddate', $borrower->borrower_enddate ?? \Carbon\Carbon::today()->addYears(1)->format('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
+                {!! Form::date('borrower_enddate', $borrower->borrower_enddate ?? \Carbon\Carbon::today()->addMonths(1)->format('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
                </div>
             </fieldset>
             <hr />
