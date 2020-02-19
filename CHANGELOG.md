@@ -1,3 +1,5 @@
+1.0.11
+- Changed from 1month renewal to 1year
 1.0.10
 - Changed from 1year renewal to 1month
 1.0.9.1
